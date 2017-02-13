@@ -1,3 +1,4 @@
 apply plugin: 'java'
 apply plugin: 'application'
 mainClassName = "ua.annalonskaya.sandbox.MyProgram"
+mainClassName = "ua.annalonskaya.sandbox.Point"
