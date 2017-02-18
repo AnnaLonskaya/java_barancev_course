@@ -2,7 +2,9 @@ package ua.annalonskaya.addressbook;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -38,9 +40,11 @@ public class ContactCreationTests {
   @Test
   public void testContactCreation() {
     initContactCreation();
-    fillContactForm(new ContactData("Anna", "Qwerty", "Incom", "Street", "1@mail.ru", "123456789", "2000"));
+    fillContactForm(new ContactData("Anna", "Qwerty", "Incom", "Street",
+            "1@mail.ru", "123456789", 6, 10, "2000"));
     submitContactCreation();
   }
+
 
   private void submitContactCreation() {
     wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
@@ -65,12 +69,8 @@ public class ContactCreationTests {
     wd.findElement(By.name("home")).click();
     wd.findElement(By.name("home")).clear();
     wd.findElement(By.name("home")).sendKeys(contactData.getPhone());
-    if (!wd.findElement(By.xpath("//div[@id='content']/form/select[1]//option[3]")).isSelected()) {
-      wd.findElement(By.xpath("//div[@id='content']/form/select[1]//option[3]")).click();
-    }
-    if (!wd.findElement(By.xpath("//div[@id='content']/form/select[2]//option[2]")).isSelected()) {
-      wd.findElement(By.xpath("//div[@id='content']/form/select[2]//option[2]")).click();
-    }
+    (new Select(wd.findElement(By.name("bday")))).selectByIndex(contactData.getDay());
+    (new Select(wd.findElement(By.name("bmonth")))).selectByIndex(contactData.getMonth());
     wd.findElement(By.name("byear")).click();
     wd.findElement(By.name("byear")).clear();
     wd.findElement(By.name("byear")).sendKeys(contactData.getYear());
