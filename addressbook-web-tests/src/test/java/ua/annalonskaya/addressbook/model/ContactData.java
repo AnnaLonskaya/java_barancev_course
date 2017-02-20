@@ -1,4 +1,4 @@
-package ua.annalonskaya.addressbook;
+package ua.annalonskaya.addressbook.model;
 
 public class ContactData {
   private final String fname;
