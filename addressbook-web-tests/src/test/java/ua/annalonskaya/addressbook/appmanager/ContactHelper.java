@@ -38,4 +38,20 @@ public class ContactHelper extends HelperBase {
     click(By.linkText("add new"));
   }
 
+  public void initContactAction() {
+    click(By.xpath("(//input[@type='checkbox'])[1]"));
+  }
+
+  public void submitContactDeletion() {
+    click(By.xpath("(//input[@type='button'])[2]"));
+  }
+
+  public void initContactModification() {
+    click(By.xpath("//img[@alt='Edit']"));
+  }
+
+  public void submitContactModification() {
+    click(By.name("update"));
+  }
+
 }
