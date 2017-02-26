@@ -1,6 +1,7 @@
 package ua.annalonskaya.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ua.annalonskaya.addressbook.model.GroupData;
 
@@ -9,7 +10,7 @@ import ua.annalonskaya.addressbook.model.GroupData;
  */
 public class GroupHelper extends HelperBase {
 
-  public GroupHelper(FirefoxDriver wd) {
+  public GroupHelper(WebDriver wd) {
     super(wd);
   }
 
