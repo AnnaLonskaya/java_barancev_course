@@ -1,9 +1,11 @@
 package ua.annalonskaya.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ua.annalonskaya.addressbook.model.ContactData;
 
 /**
@@ -19,7 +21,7 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("(//input[@name='submit'])[2]"));
   }
 
-  public void fillContactForm(ContactData contactData) {
+  public void fillContactForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFname());
     type(By.name("lastname"), contactData.getLname());
     type(By.name("company"), contactData.getCompany());
@@ -29,10 +31,20 @@ public class ContactHelper extends HelperBase {
     select(By.name("bday"), contactData.getDay());
     select(By.name("bmonth"), contactData.getMonth());
     type(By.name("byear"), contactData.getYear());
+
+    if (creation) {
+      select(By.name("new_group"), contactData.getGroup());
+    } else {
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
+    }
   }
 
   private void select(By locator, int index) {
     (new Select(wd.findElement(locator))).selectByIndex(index);
+  }
+
+  private void select(By locator, String text) {
+    (new Select(wd.findElement(locator))).selectByVisibleText(text);
   }
 
   public void initContactCreation() {

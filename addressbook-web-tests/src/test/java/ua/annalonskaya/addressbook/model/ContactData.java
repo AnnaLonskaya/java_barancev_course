@@ -10,8 +10,9 @@ public class ContactData {
   private int day;
   private int month;
   private final String year;
+  private String group;
 
-  public ContactData(String fname, String lname, String company, String address, String email, String phone, int day, int month, String year) {
+  public ContactData(String fname, String lname, String company, String address, String email, String phone, int day, int month, String year, String group) {
     this.fname = fname;
     this.lname = lname;
     this.company = company;
@@ -21,6 +22,7 @@ public class ContactData {
     this.day = day;
     this.month = month;
     this.year = year;
+    this.group = group;
   }
 
   public String getFname() {
@@ -52,4 +54,8 @@ public class ContactData {
   public int getMonth() { return month;}
 
   public String getYear() {return year;}
+
+  public String getGroup() {
+    return group;
+  }
 }
