@@ -1,10 +1,8 @@
 package ua.annalonskaya.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ua.annalonskaya.addressbook.model.ContactData;
@@ -55,8 +53,8 @@ public class ContactHelper extends HelperBase {
     click(By.linkText("add new"));
   }
 
-  public void initContactAction() {
-    click(By.xpath("(//input[@type='checkbox'])[1]"));
+  public void selectContact(int index) {
+    wd.findElements(By.xpath("//input[@name='selected[]']")).get(index).click();
   }
 
   public void submitContactDeletion() {

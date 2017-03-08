@@ -22,4 +22,26 @@ public class GroupData {
   public String getFooter() {
     return footer;
   }
+
+  @Override
+  public boolean equals(Object o) {  // метод для сравнения объектов (для ошибки: Expected:GroupData{name='test1'}   Actual:GroupData{name='test1'})
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    GroupData groupData = (GroupData) o;
+
+    return name != null ? name.equals(groupData.name) : groupData.name == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return name != null ? name.hashCode() : 0;
+  }
+
+  @Override
+  public String toString() {  // метод для получения текстового представления элемента (преобразовывает аттрибуты объекта в строку)
+    return "GroupData{" +
+            "name='" + name + '\'' +
+            '}';
+  }
 }

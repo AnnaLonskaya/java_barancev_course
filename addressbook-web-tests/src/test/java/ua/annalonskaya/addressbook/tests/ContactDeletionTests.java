@@ -18,11 +18,14 @@ public class ContactDeletionTests extends TestBase {
               "1@mail.ru", "123456789", 6, 10, "2000", null), false);
     }
     List<ContactData> before = app.getContactHelper().getContactList();
-    app.getContactHelper().initContactAction();
+    app.getContactHelper().selectContact(0);
     app.getContactHelper().submitContactDeletion();
     app.getContactHelper().acceptAlert();
     List<ContactData> after = app.getContactHelper().getContactList();
     Assert.assertEquals(after.size(), before.size() - 1);
+
+    before.remove(0);
+    Assert.assertEquals(before, after);
   }
 
 }
