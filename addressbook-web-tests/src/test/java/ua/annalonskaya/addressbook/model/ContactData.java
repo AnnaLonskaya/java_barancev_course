@@ -1,6 +1,7 @@
 package ua.annalonskaya.addressbook.model;
 
 public class ContactData {
+  private final String id;
   private final String fname;
   private final String lname;
   private final String company;
@@ -13,14 +14,36 @@ public class ContactData {
   private String group;
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ContactData that = (ContactData) o;
+
+    if (id != null ? !id.equals(that.id) : that.id != null) return false;
+    if (fname != null ? !fname.equals(that.fname) : that.fname != null) return false;
+    return lname != null ? lname.equals(that.lname) : that.lname == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id != null ? id.hashCode() : 0;
+    result = 31 * result + (fname != null ? fname.hashCode() : 0);
+    result = 31 * result + (lname != null ? lname.hashCode() : 0);
+    return result;
+  }
+
+  @Override
   public String toString() {
     return "ContactData{" +
-            "fname='" + fname + '\'' +
+            "id='" + id + '\'' +
+            ", fname='" + fname + '\'' +
             ", lname='" + lname + '\'' +
             '}';
   }
 
-  public ContactData(String fname, String lname, String company, String address, String email, String phone, int day, int month, String year, String group) {
+ public ContactData(String id, String fname, String lname, String company, String address, String email, String phone, int day, int month, String year, String group) {
+    this.id = id;
     this.fname = fname;
     this.lname = lname;
     this.company = company;
@@ -33,22 +56,22 @@ public class ContactData {
     this.group = group;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    ContactData that = (ContactData) o;
-
-    if (fname != null ? !fname.equals(that.fname) : that.fname != null) return false;
-    return lname != null ? lname.equals(that.lname) : that.lname == null;
+  public ContactData(String fname, String lname, String company, String address, String email, String phone, int day, int month, String year, String group) {
+    this.id = null;
+    this.fname = fname;
+    this.lname = lname;
+    this.company = company;
+    this.address = address;
+    this.email = email;
+    this.phone = phone;
+    this.day = day;
+    this.month = month;
+    this.year = year;
+    this.group = group;
   }
 
-  @Override
-  public int hashCode() {
-    int result = fname != null ? fname.hashCode() : 0;
-    result = 31 * result + (lname != null ? lname.hashCode() : 0);
-    return result;
+  public String getId() {
+    return id;
   }
 
   public String getFname() {
