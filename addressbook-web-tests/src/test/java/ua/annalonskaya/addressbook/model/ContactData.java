@@ -1,7 +1,7 @@
 package ua.annalonskaya.addressbook.model;
 
 public class ContactData {
-  private final String id;
+  private int id;
   private final String fname;
   private final String lname;
   private final String company;
@@ -13,36 +13,8 @@ public class ContactData {
   private final String year;
   private String group;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
 
-    ContactData that = (ContactData) o;
-
-    if (id != null ? !id.equals(that.id) : that.id != null) return false;
-    if (fname != null ? !fname.equals(that.fname) : that.fname != null) return false;
-    return lname != null ? lname.equals(that.lname) : that.lname == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = id != null ? id.hashCode() : 0;
-    result = 31 * result + (fname != null ? fname.hashCode() : 0);
-    result = 31 * result + (lname != null ? lname.hashCode() : 0);
-    return result;
-  }
-
-  @Override
-  public String toString() {
-    return "ContactData{" +
-            "id='" + id + '\'' +
-            ", fname='" + fname + '\'' +
-            ", lname='" + lname + '\'' +
-            '}';
-  }
-
- public ContactData(String id, String fname, String lname, String company, String address, String email, String phone, int day, int month, String year, String group) {
+  public ContactData(int id, String lname, String fname, String company, String address, String email, String phone, int day, int month, String year, String group) {
     this.id = id;
     this.fname = fname;
     this.lname = lname;
@@ -56,8 +28,8 @@ public class ContactData {
     this.group = group;
   }
 
-  public ContactData(String fname, String lname, String company, String address, String email, String phone, int day, int month, String year, String group) {
-    this.id = null;
+  public ContactData(String lname, String fname, String company, String address, String email, String phone, int day, int month, String year, String group) {
+    this.id = 0;
     this.fname = fname;
     this.lname = lname;
     this.company = company;
@@ -70,8 +42,12 @@ public class ContactData {
     this.group = group;
   }
 
-  public String getId() {
+  public int getId() {
     return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getFname() {
@@ -98,13 +74,49 @@ public class ContactData {
     return phone;
   }
 
-  public int getDay() { return day;}
+  public int getDay() {
+    return day;
+  }
 
-  public int getMonth() { return month;}
+  public int getMonth() {
+    return month;
+  }
 
-  public String getYear() {return year;}
+  public String getYear() {
+    return year;
+  }
 
   public String getGroup() {
     return group;
   }
+
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "id='" + id + '\'' +
+            ", fname='" + fname + '\'' +
+            ", lname='" + lname + '\'' +
+            '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ContactData that = (ContactData) o;
+
+    if (id != that.id) return false;
+    if (fname != null ? !fname.equals(that.fname) : that.fname != null) return false;
+    return lname != null ? lname.equals(that.lname) : that.lname == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id;
+    result = 31 * result + (fname != null ? fname.hashCode() : 0);
+    result = 31 * result + (lname != null ? lname.hashCode() : 0);
+    return result;
+  }
+
 }
