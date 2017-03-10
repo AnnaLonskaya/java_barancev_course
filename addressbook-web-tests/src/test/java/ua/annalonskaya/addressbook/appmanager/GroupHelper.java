@@ -3,7 +3,6 @@ package ua.annalonskaya.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import ua.annalonskaya.addressbook.model.GroupData;
 
 import java.util.ArrayList;
@@ -71,7 +70,7 @@ public class GroupHelper extends HelperBase {
     List<GroupData> groups = new ArrayList<GroupData>();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement element : elements) {
-      String id = element.findElement(By.tagName("input")).getAttribute("value");
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));  // Integer.parseInt - преобразовать строку в число
       String name = element.getText();
       GroupData group = new GroupData(id, name, null, null);
       groups.add(group);
