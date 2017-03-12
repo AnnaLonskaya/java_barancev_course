@@ -1,43 +1,45 @@
 package ua.annalonskaya.addressbook.model;
 
 public class GroupData {
-  private int id;
-  private final String name;
-  private final String header;
-  private final String footer;
-
-  public GroupData(int id, String name, String header, String footer) {
-    this.id = id;
-    this.name = name;
-    this.header = header;
-    this.footer = footer;
-  }
-
-  public GroupData(String name, String header, String footer) {
-    this.id = Integer.MAX_VALUE;
-    this.name = name;
-    this.header = header;
-    this.footer = footer;
-  }
+  private int id = Integer.MAX_VALUE;
+  private String name;  // убираем ключевое слово final, делаем их модифицируемыми, чтобы их можно было менять, после того, как конструктор отработал
+  private String header;
+  private String footer;
 
   public int getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public GroupData withId (int id) {  //  // withId (сеттер). меняем возвращаемое значение метода. Метод будет возвращать объект, в к-ом он вызван
     this.id = id;
+    return this;
   }
 
   public String getName() {
     return name;
   }
 
+  public GroupData withName(String name) {  // setName (сеттер)
+    this.name = name;
+    return this;
+  }
+
   public String getHeader() {
     return header;
   }
 
+  public GroupData withHeader(String header) {  // setHeader (сеттер)
+    this.header = header;
+    return this;
+  }
+
   public String getFooter() {
     return footer;
+  }
+
+  public GroupData withtFooter(String footer) {  // setFooter (сеттер)
+    this.footer = footer;
+    return this;
   }
 
   @Override
