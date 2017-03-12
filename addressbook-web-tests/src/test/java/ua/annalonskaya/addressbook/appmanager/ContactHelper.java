@@ -10,9 +10,6 @@ import ua.annalonskaya.addressbook.model.ContactData;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Admin on 20.02.2017.
- */
 public class ContactHelper extends HelperBase {
 
   public ContactHelper(WebDriver wd) {
@@ -73,6 +70,12 @@ public class ContactHelper extends HelperBase {
     initContactCreation();
     fillContactForm(contact, chooseGroup);
     submitContactCreation();
+  }
+
+  public void modifyContact(int index, ContactData contact) {
+    initContactModification(index);
+    fillContactForm(contact, false);
+    submitContactModification();
   }
 
   public boolean isThereAContact() {

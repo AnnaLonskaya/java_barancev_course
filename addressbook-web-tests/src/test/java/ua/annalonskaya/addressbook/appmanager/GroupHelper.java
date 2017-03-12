@@ -8,9 +8,6 @@ import ua.annalonskaya.addressbook.model.GroupData;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Admin on 19.02.2017.
- */
 public class GroupHelper extends HelperBase {
 
   public GroupHelper(WebDriver wd) {
@@ -55,6 +52,14 @@ public class GroupHelper extends HelperBase {
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
+    returnToGroupPage();
+  }
+
+  public void modifyGroup(int index, GroupData group) {
+    selectGroup(index);
+    initGroupModification();
+    fillGroupForm(group);
+    submitGroupModification();
     returnToGroupPage();
   }
 
