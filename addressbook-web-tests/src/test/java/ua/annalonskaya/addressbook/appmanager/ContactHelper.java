@@ -8,7 +8,9 @@ import org.testng.Assert;
 import ua.annalonskaya.addressbook.model.ContactData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -90,6 +92,19 @@ public class ContactHelper extends HelperBase {
 
   public List<ContactData> list() {
     List<ContactData> contacts = new ArrayList<ContactData>();
+    List<WebElement> elements = wd.findElements(By.name("entry"));
+    for (WebElement element : elements) {
+      List<WebElement> cells = element.findElements(By.tagName("td"));
+      int id =  Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+      String lname = cells.get(1).getText();
+      String fname = cells.get(2).getText();
+      contacts.add(new ContactData().withId(id).withLname(lname).withFname(fname));
+    }
+    return contacts;
+  }
+
+  public Set<ContactData> all() {
+    Set<ContactData> contacts = new HashSet<ContactData>();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.tagName("td"));
