@@ -6,11 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ua.annalonskaya.addressbook.model.ContactData;
+import ua.annalonskaya.addressbook.model.Contacts;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -71,6 +70,11 @@ public class ContactHelper extends HelperBase {
     cells.get(7).findElement(By.tagName("a")).click();
   }
 
+  public void initContactDeletionById(int id) {
+    WebElement checkbox = wd.findElement(By.cssSelector("input[value='" + id + "']"));
+    checkbox.click();
+  }
+
   public void submitContactModification() {
     click(By.name("update"));
   }
@@ -94,7 +98,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void delete(ContactData contact) {
-    initContactModificationById(contact.getId());
+    initContactDeletionById(contact.getId());
     submitContactDeletion();
     acceptAlert();
   }
@@ -116,8 +120,8 @@ public class ContactHelper extends HelperBase {
     return contacts;
   }
 
-  public Set<ContactData> all() {
-    Set<ContactData> contacts = new HashSet<ContactData>();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.tagName("td"));

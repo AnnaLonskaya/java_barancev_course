@@ -1,11 +1,13 @@
 package ua.annalonskaya.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ua.annalonskaya.addressbook.model.GroupData;
+import ua.annalonskaya.addressbook.model.Groups;
 
-import java.util.Set;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class GroupDeletionTests extends TestBase {
 
@@ -19,16 +21,14 @@ public class GroupDeletionTests extends TestBase {
 
   @Test
   public void testGroupDeletion() {
-    Set<GroupData> before = app.group().all();
+    Groups before = app.group().all();
     //  Используем объект GroupData. Чтобы извлечь элемент из множества сначала получаем итератор iterator(), к-ый позволяет
     // последовательно перебирать эл-ты, а потом вызываем метод next(), он вернет какой-нибудь первый попавшийся эл-т множества
     GroupData deletedGroup = before.iterator().next();
     app.group().delete(deletedGroup);
-    Set<GroupData> after = app.group().all();
-    Assert.assertEquals(after.size(), before.size() - 1);
-
-    before.remove(deletedGroup);
-    Assert.assertEquals(before, after);
+    Groups after = app.group().all();
+    assertEquals(after.size(), before.size() - 1);
+    assertThat(after, equalTo(before.without(deletedGroup)));
   }
 
 //  @Test
