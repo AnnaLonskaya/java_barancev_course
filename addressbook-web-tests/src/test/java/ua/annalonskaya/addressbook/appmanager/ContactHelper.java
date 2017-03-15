@@ -83,12 +83,14 @@ public class ContactHelper extends HelperBase {
     initContactCreation();
     fillContactForm(contact, chooseGroup);
     submitContactCreation();
+    contactsCache = null;
   }
 
   public void modify(ContactData contact) {
     initContactModificationById(contact.getId());
     fillContactForm(contact, false);
     submitContactModification();
+    contactsCache = null;
   }
 
   public void delete(int index) {
@@ -101,11 +103,14 @@ public class ContactHelper extends HelperBase {
     initContactDeletionById(contact.getId());
     submitContactDeletion();
     acceptAlert();
+    contactsCache = null;
   }
 
   public boolean isThereAContact() {
     return (isElementPresent(By.name("entry")));
   }
+
+  private Contacts contactsCache = null;
 
   public List<ContactData> list() {
     List<ContactData> contacts = new ArrayList<ContactData>();
@@ -121,16 +126,19 @@ public class ContactHelper extends HelperBase {
   }
 
   public Contacts all() {
-    Contacts contacts = new Contacts();
+    if (contactsCache != null) {
+      return new Contacts(contactsCache);
+    }
+    contactsCache = new Contacts();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.tagName("td"));
       int id =  Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
       String lname = cells.get(1).getText();
       String fname = cells.get(2).getText();
-      contacts.add(new ContactData().withId(id).withLname(lname).withFname(fname));
+      contactsCache.add(new ContactData().withId(id).withLname(lname).withFname(fname));
     }
-    return contacts;
+    return contactsCache;
   }
 
 }

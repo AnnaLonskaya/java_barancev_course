@@ -57,6 +57,7 @@ public class GroupHelper extends HelperBase {
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
+    groupsCache = null;
     returnToGroupPage();
   }
 
@@ -73,6 +74,7 @@ public class GroupHelper extends HelperBase {
     initGroupModification();
     fillGroupForm(group);
     submitGroupModification();
+    groupsCache = null;
     returnToGroupPage();
   }
 
@@ -85,6 +87,7 @@ public class GroupHelper extends HelperBase {
   public void delete(GroupData group) {
     selectGroupById(group.getId());
     deleteSelectedGroups();
+    groupsCache = null;
     returnToGroupPage();
   }
 
@@ -95,6 +98,8 @@ public class GroupHelper extends HelperBase {
   public int getGroupCount() {
     return  wd.findElements(By.name("selected[]")).size();
   }
+
+  private Groups groupsCache = null; // создаем новое поле аттрибут GroupHelper, к-ый мзначально равен null (пустой)
 
   public List<GroupData> list() {
     List<GroupData> groups = new ArrayList<GroupData>();
@@ -108,14 +113,17 @@ public class GroupHelper extends HelperBase {
   }
 
   public Groups all() {
-    Groups groups = new Groups();
+    if (groupsCache != null) {
+      return new Groups(groupsCache);  // возвращаем не сам кэш, а его копию, чтобы его нечаянно никто не испортил
+    }
+    groupsCache = new Groups();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement element : elements) {
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));  // Integer.parseInt - преобразовать строку в число
       String name = element.getText();
-      groups.add(new GroupData().withId(id).withName(name));
+      groupsCache.add(new GroupData().withId(id).withName(name));
     }
-    return groups;
+    return new Groups(groupsCache);
   }
 
 //  public Set<GroupData> all() {  // метод возвращает множество
