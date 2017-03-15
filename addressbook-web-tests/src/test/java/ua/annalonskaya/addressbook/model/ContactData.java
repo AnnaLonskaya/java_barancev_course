@@ -1,5 +1,7 @@
 package ua.annalonskaya.addressbook.model;
 
+import sun.security.jca.ProviderList;
+
 public class ContactData {
   private int id = Integer.MAX_VALUE;
   private String fname;

@@ -16,12 +16,22 @@ public class GroupCreationTests extends TestBase{
     Groups before = app.group().all();
     GroupData group = new GroupData().withName("test2");
     app.group().create(group);
+    assertThat(app.group().count(),equalTo(before.size() + 1));  // проверка для получения кол-ва групп. Если не совпадает, то следующей проверки не будет.
     Groups after = app.group().all();
-    assertThat(after.size(),equalTo(before.size() + 1));
-
     assertThat(after, equalTo(
             before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));  // выполняем статический импорт (исп-ся для статических глобальных ф-ций)
     //    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before));  // используем класс MatcherAssert. equalTo()-это метод в классе CoreMatchers. Проверяем совпадения двух объектов.
+  }
+
+  @Test
+  public void testBadGroupCreation() {
+    app.goTo().groupPage();
+    Groups before = app.group().all();
+    GroupData group = new GroupData().withName("test'");
+    app.group().create(group);
+    assertThat(app.group().count(),equalTo(before.size()));
+    Groups after = app.group().all();
+    assertThat(after, equalTo(before));
   }
 
 }

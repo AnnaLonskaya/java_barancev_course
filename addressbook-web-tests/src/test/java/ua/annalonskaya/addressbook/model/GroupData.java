@@ -61,6 +61,8 @@ public class GroupData {
     return name != null ? name.equals(groupData.name) : groupData.name == null;
   }
 
+  // Это хеширование. Прежде чем сравнивать объекты при помощи метода equals(), сначала выполняем более быструю проверку и сравниваем хеш-коды объектов
+  // У равных объектов должны быть равные хеш-коды. Если они не совпали, то проверки equals() не будет.
   @Override
   public int hashCode() {
     int result = id;

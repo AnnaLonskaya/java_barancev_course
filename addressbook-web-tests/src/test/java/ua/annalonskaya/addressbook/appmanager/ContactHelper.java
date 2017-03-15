@@ -110,6 +110,10 @@ public class ContactHelper extends HelperBase {
     return (isElementPresent(By.name("entry")));
   }
 
+  public int count() {
+    return  wd.findElements(By.name("selected[]")).size();
+  }
+
   private Contacts contactsCache = null;
 
   public List<ContactData> list() {
