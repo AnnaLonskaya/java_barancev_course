@@ -1,7 +1,5 @@
 package ua.annalonskaya.addressbook.model;
 
-import sun.security.jca.ProviderList;
-
 public class ContactData {
   private int id = Integer.MAX_VALUE;
   private String fname;
@@ -9,7 +7,9 @@ public class ContactData {
   private String company;
   private String address;
   private String email;
-  private String phone;
+  private String homePhone;
+  private String mobilePhone;
+  private String workPhone;
   private int day;
   private int month;
   private String year;
@@ -69,12 +69,31 @@ public class ContactData {
     return this;
   }
 
-  public String getPhone() {
-    return phone;
+  public String getHomePhone() {
+    return homePhone;
   }
 
-  public ContactData withPhone(String phone) {
-    this.phone = phone;
+  public ContactData withHomePhone(String homePhone) {
+    this.homePhone = homePhone;
+    return this;
+  }
+
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
+
+  public ContactData withMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
+    return this;
+  }
+
+
+  public String getWorkPhone() {
+    return workPhone;
+  }
+
+  public ContactData withWorkPhone(String workPhone) {
+    this.workPhone = workPhone;
     return this;
   }
 
