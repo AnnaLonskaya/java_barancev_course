@@ -145,7 +145,9 @@ public class ContactHelper extends HelperBase {
       int id =  Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
       String lname = cells.get(1).getText();
       String fname = cells.get(2).getText();
-      contactsCache.add(new ContactData().withId(id).withLname(lname).withFname(fname));
+      String[] phones = cells.get(5).getText().split("\n");// split() разбить строку на фрагменты и в качестве разделителя исп-ть регулярные выражения), "\n" - перевод строки
+      contactsCache.add(new ContactData().withId(id).withLname(lname).withFname(fname)
+              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
     }
     return contactsCache;
   }
