@@ -4,6 +4,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ua.annalonskaya.addressbook.model.ContactData;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -22,7 +25,18 @@ public class ContactEmailTests extends TestBase {
     app.goTo().gotoHomePage();
     ContactData contact = app.contact().all().iterator().next();  // загружаем множество контактов и выбираем контакт случайным образом
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
-    assertThat(contact.getEmail(), equalTo(contactInfoFromEditForm.getEmail()));
+    assertThat(contact.getAllEmails(), equalTo(mergeEmails(contactInfoFromEditForm)));
+  }
+
+  private String mergeEmails(ContactData contact) {
+    return Arrays.asList(contact.getEmail(), contact.getEmail2(), contact.getEmail3())
+            .stream().filter((s) -> ! s.equals(""))
+            .map(ContactPhoneTests::cleaned)
+            .collect(Collectors.joining("\n"));
+  }
+
+  public static String cleaned (String email) {
+    return email.replaceAll("\\s", "").replaceAll("[-()]", "");  // replaceAll() - заменить все вхождения чего-то на что-то
   }
 
 }
