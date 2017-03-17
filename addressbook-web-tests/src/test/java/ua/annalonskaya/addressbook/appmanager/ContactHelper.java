@@ -80,6 +80,13 @@ public class ContactHelper extends HelperBase {
     checkbox.click();
   }
 
+  public void initContactDetailedPageById(int id) {
+    WebElement checkbox = wd.findElement(By.cssSelector("input[value='" + id + "']"));
+    WebElement row = checkbox.findElement(By.xpath("./../.."));
+    List<WebElement> cells = row.findElements(By.tagName("td"));
+    cells.get(6).findElement(By.tagName("a")).click();
+  }
+
   public void submitContactModification() {
     click(By.name("update"));
   }
@@ -109,6 +116,10 @@ public class ContactHelper extends HelperBase {
     submitContactDeletion();
     acceptAlert();
     contactsCache = null;
+  }
+
+  public void goToDetailedPage (ContactData contact) {
+    initContactDetailedPageById(contact.getId());
   }
 
   public boolean isThereAContact() {
@@ -171,6 +182,13 @@ public class ContactHelper extends HelperBase {
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFname(fname).withLname(lname).withAddress(address)
             .withEmail(email).withEmail2(email2).withEmail3(email3).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+  }
+
+  public ContactData infoFromDetailedPage(ContactData contact) {
+    initContactDetailedPageById(contact.getId());
+    String allContactDetails = wd.findElement(By.xpath("//div[@id='content']")).getText();
+    wd.navigate().back();
+    return new ContactData().withId(contact.getId()).withAllContactDetails(allContactDetails);
   }
 
 }

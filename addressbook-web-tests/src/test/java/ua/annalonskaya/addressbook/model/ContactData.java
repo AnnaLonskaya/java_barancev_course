@@ -18,6 +18,7 @@ public class ContactData {
   private int month;
   private String year;
   private String group;
+  private String allContactDetails;
 
   public int getId() {
     return id;
@@ -171,6 +172,15 @@ public class ContactData {
 
   public ContactData withGroup(String group) {
     this.group = group;
+    return this;
+  }
+
+  public String getAllContactDetails() {
+    return allContactDetails;
+  }
+
+  public ContactData withAllContactDetails(String allContactDetails) {
+    this.allContactDetails = allContactDetails;
     return this;
   }
 
