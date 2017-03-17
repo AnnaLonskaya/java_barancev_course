@@ -39,7 +39,7 @@ public class ContactCreationTests extends TestBase {
 
   @Test (enabled = false)  // не запускать
   public void testCurrentDir() {
-    File currentDir = new File(".");
+    File currentDir = new File(".");  // узнаем какая текущая директория
     System.out.println(currentDir.getAbsolutePath());  // D:\Automation\Barancev\java_barancev_course\addressbook-web-tests\. (абсолютный путь к директории)
     File photo = new File("src/test/resources/icon.jpg");
     System.out.println(photo.getAbsolutePath()); //  D:\Automation\Barancev\java_barancev_course\addressbook-web-tests\src\test\resources\icon.jpg
