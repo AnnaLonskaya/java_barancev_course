@@ -5,9 +5,8 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
-/**
- * Created by Admin on 20.02.2017.
- */
+import java.io.File;
+
 public class HelperBase {
   protected WebDriver wd;
 
@@ -27,6 +26,12 @@ public class HelperBase {
         wd.findElement(locator).clear();
         wd.findElement(locator).sendKeys(text);
       }
+    }
+  }
+
+  protected void attach(By locator, File file) { // создаем метод для файловых полей ввода, к-ый выполняет команду sendKeys(), но не выполняет click()
+    if (file != null) {
+      wd.findElement(locator).sendKeys(file.getAbsolutePath());
     }
   }
 

@@ -31,6 +31,8 @@ public class ContactHelper extends HelperBase {
     select(By.name("bday"), contactData.getDay());
     select(By.name("bmonth"), contactData.getMonth());
     type(By.name("byear"), contactData.getYear());
+    attach(By.name("photo"), contactData.getPhoto());  // передаем в качестве параметра не просто рез-т выполнения getPhoto(), нужно преобразовать его
+                                                     // в строку, к-ая содержит полный абсолютный путь к этому файлу
 
     if (creation) {
       select(By.name("new_group"), contactData.getGroup());

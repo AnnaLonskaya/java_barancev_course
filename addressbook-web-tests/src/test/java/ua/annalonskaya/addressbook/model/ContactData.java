@@ -1,5 +1,7 @@
 package ua.annalonskaya.addressbook.model;
 
+import java.io.File;
+
 public class ContactData {
   private int id = Integer.MAX_VALUE;
   private String fname;
@@ -19,6 +21,7 @@ public class ContactData {
   private String year;
   private String group;
   private String allContactDetails;
+  private File photo;
 
   public int getId() {
     return id;
@@ -183,6 +186,16 @@ public class ContactData {
     this.allContactDetails = allContactDetails;
     return this;
   }
+
+  public File getPhoto() {
+    return photo;
+  }
+
+  public ContactData withPhoto(File photo) {
+    this.photo = photo;
+    return this;
+  }
+
 
   @Override
   public String toString() {
