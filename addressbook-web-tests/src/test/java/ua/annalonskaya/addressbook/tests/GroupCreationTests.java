@@ -1,8 +1,13 @@
 package ua.annalonskaya.addressbook.tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ua.annalonskaya.addressbook.model.GroupData;
 import ua.annalonskaya.addressbook.model.Groups;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,11 +15,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase{
 
-  @Test
-  public void testGroupCreation() {
+  @DataProvider  // делаем провайдер тестовых данных. Это специальный метод, к-ый помечается аннотацией @DataProvider
+  public Iterator<Object[]> validGroups() {   // возвращаемое значение этого метода Iterator<Object[]> - итератор массива объектов
+    List<Object[]> list = new ArrayList<Object[]>();  // заполняем список этих массивов объектов
+    list.add(new Object[] {new GroupData().withName("test1").withHeader("header 1").withtFooter("footer 1")});   // заполняем список тестовыми данными
+    list.add(new Object[] {new GroupData().withName("test2").withHeader("header 2").withtFooter("footer 2")});
+    list.add(new Object[] {new GroupData().withName("test3").withHeader("header 3").withtFooter("footer 3")});
+    return list.iterator();  // возвращается итератор этого списка. Тестовый фреймворк по очереди при помощи итератора из списка вытаскивает один набор
+                             // параметров за другим и запускает тестовый метод несколько раз и помещает полученную инф-цию о рез-ах в отчет
+  }
+
+
+  @Test (dataProvider = "validGroups")
+  public void testGroupCreation(GroupData group) {
     app.goTo().groupPage();
     Groups before = app.group().all();
-    GroupData group = new GroupData().withName("test2");
     app.group().create(group);
     assertThat(app.group().count(),equalTo(before.size() + 1));  // проверка для получения кол-ва групп. Если не совпадает, то следующей проверки не будет.
     Groups after = app.group().all();
