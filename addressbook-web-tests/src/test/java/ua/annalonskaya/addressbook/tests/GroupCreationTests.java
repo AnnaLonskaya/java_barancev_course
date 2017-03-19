@@ -1,5 +1,7 @@
 package ua.annalonskaya.addressbook.tests;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ua.annalonskaya.addressbook.model.GroupData;
@@ -9,6 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GroupCreationTests extends TestBase {
 
 //  @DataProvider  // делаем провайдер тестовых данных. Это специальный метод, к-ый помечается аннотацией @DataProvider. Здесь тестовые данные создаются непосредственно в провайдере
-//  public Iterator<Object[]> validGroups() {   // возвращаемое значение этого метода - Iterator<Object[]> - итератор массивов объектов
+//  public Iterator<Object[]> validGroupsFromCsv() {   // возвращаемое значение этого метода - Iterator<Object[]> - итератор массивов объектов
 //    List<Object[]> list = new ArrayList<Object[]>();  // сначала делаем список этих массивов объектов
 //    list.add(new Object[] {new GroupData().withName("test1").withHeader("header 1").withtFooter("footer 1")});   // заполняем список тестовыми данными
 //    list.add(new Object[] {new GroupData().withName("test2").withHeader("header 2").withtFooter("footer 2")});
@@ -27,7 +30,7 @@ public class GroupCreationTests extends TestBase {
 //  }
 
   @DataProvider  // загружаем тестовые данные из внешнего файла
-  public Iterator<Object[]> validGroups() throws IOException {
+  public Iterator<Object[]> validGroupsFromCsv() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
     BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.csv"))); // В классе Reader нет метода для чтения
     // строчки целиком. Поэтому делаем обертку, вместо обычного Reader исп-ем BufferedReader(обычный Reader заворачиваем в буферизованный)
@@ -41,7 +44,24 @@ public class GroupCreationTests extends TestBase {
     return list.iterator();
   }
 
-  @Test (dataProvider = "validGroups")
+  @DataProvider
+  public Iterator<Object[]> validGroupsFromXml() throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")));
+    String xml = "";  // создаем пока пустую строку
+    String line = reader.readLine();
+    while (line != null) {  // читаем строчки из файла одна за другой до тех пор, пока эти строчки не равны null
+      xml += line;  // добавляем это к переменной xml
+      line = reader.readLine();
+    }
+    XStream xStream = new XStream();
+    xStream.processAnnotations(GroupData.class);  // XStream обрабатывает аннотации
+    List<GroupData> groups = (List<GroupData>)xStream.fromXML(xml); // этот метод должен прочитать данные типа List<GroupData> и сохраняем это в переменную
+    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();  // к каждому объекту нужно применить ф-цию, к-ая этот объект
+    // типа GroupData завернет в массив, к-ый состоит из одного этого объекта. После того, как мы эту анонимную ф-цию применили ко всем анонимным объктам
+    // вызываем метод collect(), к=ый должен из потока собрать обратно список и у получившегося списка берем итератор iterator(), его и нужно возвращать.
+  }
+
+  @Test (dataProvider = "validGroupsFromXml")
   public void testGroupCreation(GroupData group) {
     app.goTo().groupPage();
     Groups before = app.group().all();

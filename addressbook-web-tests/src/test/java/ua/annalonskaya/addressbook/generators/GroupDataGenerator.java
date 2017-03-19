@@ -3,6 +3,7 @@ package ua.annalonskaya.addressbook.generators;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import com.thoughtworks.xstream.XStream;
 import ua.annalonskaya.addressbook.model.GroupData;
 
 import java.io.File;
@@ -24,6 +25,9 @@ public class GroupDataGenerator {
   @Parameter(names = "-f", description = "Target file")
   public String file;  // JCommander напрямую не поддерживает работу с файлами (только числа, строки, списки)
 
+  @Parameter(names = "-d", description = "Data format")  // формат xml или csv ( -c 10 -f src/test/resources/groups.xml -d xml)
+  public String format;
+
   public static void main(String[] args) throws IOException {
     GroupDataGenerator generator = new GroupDataGenerator();  // создаем обект текущего класса
     JCommander jCommander = new JCommander(generator);       // создаем объект типа JCommander и помещаем его в локальную переменную. Параметр типа generator-объект, в к-ом должны быть заполнены соответствующие атрибуты (count и file)
@@ -38,10 +42,25 @@ public class GroupDataGenerator {
 
   private void run() throws IOException {
     List<GroupData> groups = generateGroups(count);
-    save(groups, new File(file));
+    if (format.equals("csv")) {
+      saveAsCsv(groups, new File(file));
+    } else if (format.equals("xml")){
+      saveAsXml(groups, new File(file));
+    } else {
+      System.out.println("Unrecognized format " + format);
+    }
   }
 
-  private void save(List<GroupData> groups, File file) throws IOException {  // сохраняем список в файл. Каждая группа будет сохраняться в виде отдельной
+  private void saveAsXml(List<GroupData> groups, File file) throws IOException {  // 1-ый параметр это список групп, к-ый нужно сохранять, 2-ой - файл, в к-ый нужно сохранять
+    XStream xstream = new XStream();     // создаем объект типа XStream
+    xstream.processAnnotations(GroupData.class);  // для данных типа GroupData исп-ем тег group (меняем название тега <ua.annalonskaya.addressbook.model.GroupData>)
+    String xml = xstream.toXML(groups);  // в качестве параметра передаем тот объект, к-ый нужно сериализовать, т.е. превратить из объектного представления в
+    Writer writer = new FileWriter(file);                                                                                       // строчку в формате xml
+    writer.write(xml);
+    writer.close();
+  }
+
+  private void saveAsCsv(List<GroupData> groups, File file) throws IOException {  // сохраняем список в файл. Каждая группа будет сохраняться в виде отдельной
     Writer writer = new FileWriter(file);       // открываем файл на запись        //строки, к-ая состоит из 3-х частей: имя, header, footer и они разделены ";"
     for (GroupData group : groups) {             // проходим в цикле по всем группам, к-ые находятся в списке groups
       writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));   // каждую из них записываем, "\n" перевод на следующую строку

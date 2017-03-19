@@ -1,6 +1,11 @@
 package ua.annalonskaya.addressbook.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+@XStreamAlias("group") // аннотация для создания xml файлов (исп-ем тег group)
 public class GroupData {
+  @XStreamOmitField  // пропустить это поле, не сохранять его в формате xml
   private int id = Integer.MAX_VALUE;
   private String name;  // убираем ключевое слово final, делаем их модифицируемыми, чтобы их можно было менять, после того, как конструктор отработал
   private String header;
