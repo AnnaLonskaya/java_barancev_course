@@ -44,7 +44,7 @@ public class GroupDataGenerator {
   private void save(List<GroupData> groups, File file) throws IOException {  // сохраняем список в файл. Каждая группа будет сохраняться в виде отдельной
     Writer writer = new FileWriter(file);       // открываем файл на запись        //строки, к-ая состоит из 3-х частей: имя, header, footer и они разделены ";"
     for (GroupData group : groups) {             // проходим в цикле по всем группам, к-ые находятся в списке groups
-      writer.write(String.format("%s;%s%s\n", group.getName(), group.getHeader(), group.getFooter()));   // каждую из них записываем, "\n" перевод на следующую строку
+      writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));   // каждую из них записываем, "\n" перевод на следующую строку
     }
     writer.close();       // закрываем файл
   }

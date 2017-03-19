@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ua.annalonskaya.addressbook.model.GroupData;
 import ua.annalonskaya.addressbook.model.Groups;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,18 +14,32 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
-public class GroupCreationTests extends TestBase{
+public class GroupCreationTests extends TestBase {
 
-  @DataProvider  // делаем провайдер тестовых данных. Это специальный метод, к-ый помечается аннотацией @DataProvider
-  public Iterator<Object[]> validGroups() {   // возвращаемое значение этого метода Iterator<Object[]> - итератор массива объектов
-    List<Object[]> list = new ArrayList<Object[]>();  // заполняем список этих массивов объектов
-    list.add(new Object[] {new GroupData().withName("test1").withHeader("header 1").withtFooter("footer 1")});   // заполняем список тестовыми данными
-    list.add(new Object[] {new GroupData().withName("test2").withHeader("header 2").withtFooter("footer 2")});
-    list.add(new Object[] {new GroupData().withName("test3").withHeader("header 3").withtFooter("footer 3")});
-    return list.iterator();  // возвращается итератор этого списка. Тестовый фреймворк по очереди при помощи итератора из списка вытаскивает один набор
-                             // параметров за другим и запускает тестовый метод несколько раз и помещает полученную инф-цию о рез-ах в отчет
+//  @DataProvider  // делаем провайдер тестовых данных. Это специальный метод, к-ый помечается аннотацией @DataProvider. Здесь тестовые данные создаются непосредственно в провайдере
+//  public Iterator<Object[]> validGroups() {   // возвращаемое значение этого метода - Iterator<Object[]> - итератор массивов объектов
+//    List<Object[]> list = new ArrayList<Object[]>();  // сначала делаем список этих массивов объектов
+//    list.add(new Object[] {new GroupData().withName("test1").withHeader("header 1").withtFooter("footer 1")});   // заполняем список тестовыми данными
+//    list.add(new Object[] {new GroupData().withName("test2").withHeader("header 2").withtFooter("footer 2")});
+//    list.add(new Object[] {new GroupData().withName("test3").withHeader("header 3").withtFooter("footer 3")});
+//    return list.iterator();  // возвращается итератор этого списка. Тестовый фреймворк по очереди при помощи итератора из списка вытаскивает один набор
+//                             // параметров за другим и запускает тестовый метод несколько раз и помещает полученную инф-цию о рез-ах в отчет
+//  }
+
+  @DataProvider  // загружаем тестовые данные из внешнего файла
+  public Iterator<Object[]> validGroups() throws IOException {
+    List<Object[]> list = new ArrayList<Object[]>();
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.csv"))); // В классе Reader нет метода для чтения
+    // строчки целиком. Поэтому делаем обертку, вместо обычного Reader исп-ем BufferedReader(обычный Reader заворачиваем в буферизованный)
+    String line = reader.readLine();           // readLine() - читает первую строчку и сразу её возвращает (тип возвращ-го значения String)
+    while (line != null) {                     // чтобы читать все строчки устраиваем цикл. До тех пор, пока line не равно 0 продолжаем выполнение этого цикла
+      String[] split = line.split(";"); // каждую строку делим на части split() и рез-т помещаем в локальную переменную split
+      list.add(new Object[]{new GroupData()   // и строим из полученных кусочков объект и добавляем его в список
+              .withName(split[0]).withHeader(split[1]).withtFooter(split[2])});
+      line = reader.readLine(); // на каждой следующей итерации читаем следующую строчку из того же самого файла.
+    }
+    return list.iterator();
   }
-
 
   @Test (dataProvider = "validGroups")
   public void testGroupCreation(GroupData group) {
