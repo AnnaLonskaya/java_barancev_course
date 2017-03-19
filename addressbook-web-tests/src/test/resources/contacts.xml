@@ -1,0 +1,50 @@
+<list>
+  <contact>
+    <fname>Fname 0</fname>
+    <lname>Lname 0</lname>
+    <company>Company 0</company>
+    <address>Address 0</address>
+    <email>Email 0</email>
+    <email2>Email2 0</email2>
+    <email3>Email3 0</email3>
+    <homePhone>HomePhone 0</homePhone>
+    <mobilePhone>MobilePhone 0</mobilePhone>
+    <workPhone>WorkPhone 0</workPhone>
+    <day>0</day>
+    <month>0</month>
+    <group>[none]</group>
+    <photo>src\test\resources\icon.jpg</photo>
+  </contact>
+  <contact>
+    <fname>Fname 1</fname>
+    <lname>Lname 1</lname>
+    <company>Company 1</company>
+    <address>Address 1</address>
+    <email>Email 1</email>
+    <email2>Email2 1</email2>
+    <email3>Email3 1</email3>
+    <homePhone>HomePhone 1</homePhone>
+    <mobilePhone>MobilePhone 1</mobilePhone>
+    <workPhone>WorkPhone 1</workPhone>
+    <day>0</day>
+    <month>0</month>
+    <group>[none]</group>
+    <photo>src\test\resources\icon.jpg</photo>
+  </contact>
+  <contact>
+    <fname>Fname 2</fname>
+    <lname>Lname 2</lname>
+    <company>Company 2</company>
+    <address>Address 2</address>
+    <email>Email 2</email>
+    <email2>Email2 2</email2>
+    <email3>Email3 2</email3>
+    <homePhone>HomePhone 2</homePhone>
+    <mobilePhone>MobilePhone 2</mobilePhone>
+    <workPhone>WorkPhone 2</workPhone>
+    <day>0</day>
+    <month>0</month>
+    <group>[none]</group>
+    <photo>src\test\resources\icon.jpg</photo>
+  </contact>
+</list>

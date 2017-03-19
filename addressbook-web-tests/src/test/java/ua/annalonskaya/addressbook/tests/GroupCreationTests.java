@@ -1,13 +1,15 @@
 package ua.annalonskaya.addressbook.tests;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ua.annalonskaya.addressbook.model.GroupData;
 import ua.annalonskaya.addressbook.model.Groups;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
