@@ -1,5 +1,7 @@
 package ua.annalonskaya.addressbook.tests;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -63,7 +65,24 @@ public class GroupCreationTests extends TestBase {
     // вызываем метод collect(), к=ый должен из потока собрать обратно список и у получившегося списка берем итератор iterator(), его и нужно возвращать.
   }
 
-  @Test (dataProvider = "validGroupsFromXml")
+  @DataProvider
+  public Iterator<Object[]> validGroupsFromJson() throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
+    String json = ""; // в эту переменную читаем содержимое файла
+    String line = reader.readLine();
+    while (line != null) {
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();  // создаем объект типа Gson
+    List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType()); // вызываем в нем метод fromJson(). В качестве 1-го параметра
+    // передается строка, а вторым параметром нужно указать тип данных, к-ые должны быть десериализованы. Но мы не можем написать List<GroupData>.class (со списками так нельзя).
+    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+  }
+  // десериализация(из Json формата в объект) выполняется так: сначала нужно прочитать все содержимое файла в переменную типа String, потом её обрабатывать
+
+
+  @Test (dataProvider = "validGroupsFromJson")
   public void testGroupCreation(GroupData group) {
     app.goTo().groupPage();
     Groups before = app.group().all();

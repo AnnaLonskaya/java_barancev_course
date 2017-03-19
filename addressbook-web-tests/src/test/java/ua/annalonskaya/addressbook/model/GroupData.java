@@ -1,5 +1,6 @@
 package ua.annalonskaya.addressbook.model;
 
+import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -7,8 +8,11 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class GroupData {
   @XStreamOmitField  // пропустить это поле, не сохранять его в формате xml
   private int id = Integer.MAX_VALUE;
+  @Expose // gson библиотека и её аннотация, помечаем поля, к-ые должны быть сериализованы (записаться в json файл)
   private String name;  // убираем ключевое слово final, делаем их модифицируемыми, чтобы их можно было менять, после того, как конструктор отработал
+  @Expose
   private String header;
+  @Expose
   private String footer;
 
   public int getId() {
