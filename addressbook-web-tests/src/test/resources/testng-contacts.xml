@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite1" verbose="1" >
+     <test name="Contacts">
+        <classes>
+            <class name="ua.annalonskaya.addressbook.tests.ContactCreationTests"/>
+            <class name="ua.annalonskaya.addressbook.tests.ContactModificationTests"/>
+            <class name="ua.annalonskaya.addressbook.tests.ContactDeletionTests"/>
+            <class name="ua.annalonskaya.addressbook.tests.ContactAddressTests"/>
+            <class name="ua.annalonskaya.addressbook.tests.ContactDetailedPageTests"/>
+            <class name="ua.annalonskaya.addressbook.tests.ContactEmailTests"/>
+            <class name="ua.annalonskaya.addressbook.tests.ContactPhoneTests"/>
+        </classes>
+    </test>
+</suite>

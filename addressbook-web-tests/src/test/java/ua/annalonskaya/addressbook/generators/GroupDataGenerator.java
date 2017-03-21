@@ -55,6 +55,9 @@ public class GroupDataGenerator {
     }
   }
 
+  // Использование конструкци try: когда мы пишем данные в файл, они не сразу сохраняются на диск, а сначала накапливаются в кеше, в оперативной памяти.
+  // И если программа завершится в тот момент, когда кеш еще не сохранился на диск, то эти данные могут быть потеряны. Поэтому нужно закрывать файл,
+  // особенно writer, т.к. есть риск потери данных.
   private void saveAsJson(List<GroupData> groups, File file) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();  // создаем объект типа Gson
     String json = gson.toJson(groups);  // потом вызываем метод, к-ый будет сериализовать объект. Рез-ом его работы будет строка, к-ую нужно сохранить в файл

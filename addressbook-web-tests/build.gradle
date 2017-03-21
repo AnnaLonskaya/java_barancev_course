@@ -14,3 +14,24 @@ dependencies {
     compile 'com.thoughtworks.xstream:xstream:1.4.9'
     compile 'com.google.code.gson:gson:2.8.0'
 }
+
+// чтобы запустить тесты из консоли из директории проекта в cmd вводим gradlew test (gradlew cleanTest test).
+// по умолчанию gradle запускает тесты с использованием фреймворка junit, а мы используем TestNG. Теперь он найдет и запустит все тесты,
+// к-ые созданы с исп-ем тестового фреймворка TestNG.
+task testGroups (type: Test) {    // gradlew testGroups
+    useTestNG() {
+        suites 'src/test/resources/testng-groups.xml'    // указываем какой именно файл из тестового набора мы хотим исп-ть
+    }
+}
+
+task testContacts (type: Test) {
+    useTestNG() {
+        suites 'src/test/resources/testng-contacts.xml'
+    }
+}
+
+//test {     // запускаем все тесты (gradlew test)
+//    useTestNG() {
+//        suites 'src/test/resources/testng.xml'    // указываем какой именно файл из тестового набора мы хотим исп-ть
+//    }
+//}
