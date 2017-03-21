@@ -36,48 +36,51 @@ public class GroupCreationTests extends TestBase {
   @DataProvider  // загружаем тестовые данные из внешнего файла
   public Iterator<Object[]> validGroupsFromCsv() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.csv"))); // В классе Reader нет метода для чтения
-    // строчки целиком. Поэтому делаем обертку, вместо обычного Reader исп-ем BufferedReader(обычный Reader заворачиваем в буферизованный)
-    String line = reader.readLine();           // readLine() - читает первую строчку и сразу её возвращает (тип возвращ-го значения String)
-    while (line != null) {                     // чтобы читать все строчки устраиваем цикл. До тех пор, пока line не равно 0 продолжаем выполнение этого цикла
-      String[] split = line.split(";"); // каждую строку делим на части split() и рез-т помещаем в локальную переменную split
-      list.add(new Object[]{new GroupData()   // и строим из полученных кусочков объект и добавляем его в список
-              .withName(split[0]).withHeader(split[1]).withtFooter(split[2])});
-      line = reader.readLine(); // на каждой следующей итерации читаем следующую строчку из того же самого файла.
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.csv")))) { // В классе Reader нет метода для чтения
+      // строчки целиком. Поэтому делаем обертку, вместо обычного Reader исп-ем BufferedReader(обычный Reader заворачиваем в буферизованный)
+      String line = reader.readLine();           // readLine() - читает первую строчку и сразу её возвращает (тип возвращ-го значения String)
+      while (line != null) {                     // чтобы читать все строчки устраиваем цикл. До тех пор, пока line не равно 0 продолжаем выполнение этого цикла
+        String[] split = line.split(";"); // каждую строку делим на части split() и рез-т помещаем в локальную переменную split
+        list.add(new Object[]{new GroupData()   // и строим из полученных кусочков объект и добавляем его в список
+                .withName(split[0]).withHeader(split[1]).withtFooter(split[2])});
+        line = reader.readLine(); // на каждой следующей итерации читаем следующую строчку из того же самого файла.
+      }
+      return list.iterator();
     }
-    return list.iterator();
   }
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromXml() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")));
-    String xml = "";  // создаем пока пустую строку
-    String line = reader.readLine();
-    while (line != null) {  // читаем строчки из файла одна за другой до тех пор, пока эти строчки не равны null
-      xml += line;  // добавляем это к переменной xml
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")))) {
+      String xml = "";  // создаем пока пустую строку
+      String line = reader.readLine();
+      while (line != null) {  // читаем строчки из файла одна за другой до тех пор, пока эти строчки не равны null
+        xml += line;  // добавляем это к переменной xml
+        line = reader.readLine();
+      }
+      XStream xStream = new XStream();
+      xStream.processAnnotations(GroupData.class);  // XStream обрабатывает аннотации
+      List<GroupData> groups = (List<GroupData>)xStream.fromXML(xml); // этот метод должен прочитать данные типа List<GroupData> и сохраняем это в переменную
+      return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();  // к каждому объекту нужно применить ф-цию, к-ая этот объект
+      // типа GroupData завернет в массив, к-ый состоит из одного этого объекта. После того, как мы эту анонимную ф-цию применили ко всем анонимным объктам
+      // вызываем метод collect(), к=ый должен из потока собрать обратно список и у получившегося списка берем итератор iterator(), его и нужно возвращать.
     }
-    XStream xStream = new XStream();
-    xStream.processAnnotations(GroupData.class);  // XStream обрабатывает аннотации
-    List<GroupData> groups = (List<GroupData>)xStream.fromXML(xml); // этот метод должен прочитать данные типа List<GroupData> и сохраняем это в переменную
-    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();  // к каждому объекту нужно применить ф-цию, к-ая этот объект
-    // типа GroupData завернет в массив, к-ый состоит из одного этого объекта. После того, как мы эту анонимную ф-цию применили ко всем анонимным объктам
-    // вызываем метод collect(), к=ый должен из потока собрать обратно список и у получившегося списка берем итератор iterator(), его и нужно возвращать.
   }
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromJson() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
-    String json = ""; // в эту переменную читаем содержимое файла
-    String line = reader.readLine();
-    while (line != null) {
-      json += line;
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")))) {
+      String json = ""; // в эту переменную читаем содержимое файла
+      String line = reader.readLine();
+      while (line != null) {
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();  // создаем объект типа Gson
+      List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType()); // вызываем в нем метод fromJson(). В качестве 1-го параметра
+      // передается строка, а вторым параметром нужно указать тип данных, к-ые должны быть десериализованы. Но мы не можем написать List<GroupData>.class (со списками так нельзя).
+      return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
-    Gson gson = new Gson();  // создаем объект типа Gson
-    List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType()); // вызываем в нем метод fromJson(). В качестве 1-го параметра
-    // передается строка, а вторым параметром нужно указать тип данных, к-ые должны быть десериализованы. Но мы не можем написать List<GroupData>.class (со списками так нельзя).
-    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
   // десериализация(из Json формата в объект) выполняется так: сначала нужно прочитать все содержимое файла в переменную типа String, потом её обрабатывать
 

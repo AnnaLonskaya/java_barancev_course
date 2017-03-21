@@ -58,26 +58,26 @@ public class GroupDataGenerator {
   private void saveAsJson(List<GroupData> groups, File file) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();  // создаем объект типа Gson
     String json = gson.toJson(groups);  // потом вызываем метод, к-ый будет сериализовать объект. Рез-ом его работы будет строка, к-ую нужно сохранить в файл
-    Writer writer = new FileWriter(file);                                                                                       // строчку в формате xml
-    writer.write(json);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) { // try-with-resources - новый способ исп-ия конструкции try (она умеет автоматически закрывать файлы)
+      writer.write(json);                      // writer закрывается автоматически, когда завершится блок try
+    }
   }
 
   private void saveAsXml(List<GroupData> groups, File file) throws IOException {  // 1-ый параметр это список групп, к-ый нужно сохранять, 2-ой - файл, в к-ый нужно сохранять
     XStream xstream = new XStream();     // создаем объект типа XStream
     xstream.processAnnotations(GroupData.class);  // для данных типа GroupData исп-ем тег group (меняем название тега <ua.annalonskaya.addressbook.model.GroupData>)
-    String xml = xstream.toXML(groups);  // в качестве параметра передаем тот объект, к-ый нужно сериализовать, т.е. превратить из объектного представления в
-    Writer writer = new FileWriter(file);                                                                                       // строчку в формате xml
-    writer.write(xml);
-    writer.close();
+    String xml = xstream.toXML(groups);  // в качестве параметра передаем тот объект, к-ый нужно сериализовать, т.е. превратить из объектного представления в строчку в формате xml
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(xml);
+    }
   }
 
   private void saveAsCsv(List<GroupData> groups, File file) throws IOException {  // сохраняем список в файл. Каждая группа будет сохраняться в виде отдельной
-    Writer writer = new FileWriter(file);       // открываем файл на запись        //строки, к-ая состоит из 3-х частей: имя, header, footer и они разделены ";"
-    for (GroupData group : groups) {             // проходим в цикле по всем группам, к-ые находятся в списке groups
-      writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));   // каждую из них записываем, "\n" перевод на следующую строку
+    try (Writer writer = new FileWriter(file)) { // открываем файл на запись        //строки, к-ая состоит из 3-х частей: имя, header, footer и они разделены ";"
+      for (GroupData group : groups) {             // проходим в цикле по всем группам, к-ые находятся в списке groups
+        writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));   // каждую из них записываем, "\n" перевод на следующую строку
+      }
     }
-    writer.close();       // закрываем файл
   }
 
   private List<GroupData> generateGroups(int count) {
