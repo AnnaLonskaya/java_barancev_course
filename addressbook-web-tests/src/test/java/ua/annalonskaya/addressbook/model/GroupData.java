@@ -3,16 +3,34 @@ package ua.annalonskaya.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @XStreamAlias("group") // аннотация для создания xml файлов (исп-ем тег group)
+@Entity  // эта аннотмация объявляет класс GroupData привязанным к БД (hibernate)
+@Table(name = "group_list")  // уквзываем название таблицы  (hibernate)
 public class GroupData {
   @XStreamOmitField  // пропустить это поле, не сохранять его в формате xml
+  @Id  // атрибут id исп-ся как идентификатор, поэтому ему присваивается особая аннотация (hibernate)
+  @Column(name = "group_id") // привязка к столбцу таблицы
   private int id = Integer.MAX_VALUE;
+
   @Expose // gson библиотека и её аннотация, помечаем поля, к-ые должны быть сериализованы (записаться в json файл)
+  @Column(name = "group_name")
   private String name;  // убираем ключевое слово final, делаем их модифицируемыми, чтобы их можно было менять, после того, как конструктор отработал
+
   @Expose
+  @Column(name = "group_header")
+  @Type(type = "text") // добавляем описание типа. Это поле многострочное и в БД оно хранится по другому (не так как name, там удалось автоматически сделать преобразование типа)
   private String header;
+
   @Expose
+  @Column(name = "group_footer")
+  @Type(type = "text")
   private String footer;
 
   public int getId() {

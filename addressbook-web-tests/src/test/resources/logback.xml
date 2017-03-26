@@ -4,7 +4,8 @@
 
 <configuration>
 
-    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>    <!-- создаем переменную, к-ая будет содержать текущее время и дату -->
+    <timestamp key="bySecond"
+               datePattern="yyyyMMdd'T'HHmmss"/>    <!-- создаем переменную, к-ая будет содержать текущее время и дату -->
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>test-${bySecond}</file>    <!-- и в имени файла исп-ем эту переменную -->
@@ -19,6 +20,9 @@
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">  <!-- на сайте https://logback.qos.ch/manual/filters.html в разделе ThresholdFilter  -->
+            <level>INFO</level>  <!-- указывааем, что на консоль должно выводиться только сообщение уровня INFO или выше  -->
+        </filter>
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
@@ -27,7 +31,7 @@
     </appender>
 
     <root level="debug">
-        <appender-ref ref="FILE" />       <!-- теперь информация сохранятется и в файл  -->
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>       <!-- теперь информация сохранятется и в файл  -->
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
