@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @XStreamAlias("group") // аннотация для создания xml файлов (исп-ем тег group)
-@Entity  // эта аннотмация объявляет класс GroupData привязанным к БД (hibernate)
-@Table(name = "group_list")  // уквзываем название таблицы  (hibernate)
+@Entity  // эта аннотация объявляет класс GroupData привязанным к БД (hibernate)
+@Table(name = "group_list")  // уквзываем название таблицы, в к-ой хранится инф-ция об объектах такого типа  (hibernate)
 public class GroupData {
   @XStreamOmitField  // пропустить это поле, не сохранять его в формате xml
   @Id  // атрибут id исп-ся как идентификатор, поэтому ему присваивается особая аннотация (hibernate)

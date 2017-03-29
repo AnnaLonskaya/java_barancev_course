@@ -7,6 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import ua.annalonskaya.addressbook.model.ContactData;
 import ua.annalonskaya.addressbook.model.GroupData;
 
 import java.util.List;
@@ -36,10 +37,22 @@ public class HbConnectionTest {
   }
 
   @Test   // извлекаем инф-цию о группах из БД (пример кода: Example 6. Obtaining a list of entities)
-  public void testHbConnection() {
+  public void testHbConnectionContacts() {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    List<GroupData> result = session.createQuery("from GroupData").list();
+    List<ContactData> result = session.createQuery("from ContactData where deprecated = '0000-00-00'").list();
+    for (ContactData contact : result) {
+      System.out.println(contact);
+    }
+    session.getTransaction().commit();
+    session.close();
+  }
+
+  @Test
+  public void testHbConnectionGroups() {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<GroupData> result = session.createQuery("from GroupData where deprecated = '0000-00-00'").list();
     for (GroupData group : result) {
       System.out.println(group);
     }
