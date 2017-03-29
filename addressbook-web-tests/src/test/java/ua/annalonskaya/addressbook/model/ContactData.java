@@ -65,15 +65,13 @@ public class ContactData {
   @Transient
   private String allPhones;
 
-  @Transient
   @Column(name = "bday")
-//  @Type(type = "byte")
-  private int day;
+  @Type(type = "byte")
+  private byte day;
 
-  @Transient
   @Column(name = "bmonth")
   @Type(type = "string")
-  private int month;
+  private String month;
 
   @Column(name = "byear")
   @Type(type = "string")
@@ -211,20 +209,20 @@ public class ContactData {
   }
 
   public int getDay() {
-    return day;
+    return new Integer(day);
   }
 
   public ContactData withDay(int day) {
-    this.day = day;
+    this.day = (byte) day;
     return this;
   }
 
   public int getMonth() {
-    return month;
+    return new Integer(month);
   }
 
   public ContactData withMonth(int month) {
-    this.month = month;
+    this.month = String.valueOf(month);
     return this;
   }
 
@@ -256,7 +254,11 @@ public class ContactData {
   }
 
   public File getPhoto() {
-    return new File(photo);
+    if (photo != null) {
+      return new File(photo);
+    } else {
+      return null;
+    }
   }
 
   public ContactData withPhoto(File photo) {

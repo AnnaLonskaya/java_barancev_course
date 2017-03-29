@@ -30,7 +30,7 @@ public class ContactDetailedPageTests extends TestBase {
   }
 
   private String mergeContactDetails(ContactData contact) {
-    return Arrays.asList(contact.getFname() + " ", contact.getLname()+"\n", contact.getAddress()+"\n\n",
+    return Arrays.asList(contact.getFname() + " ", contact.getLname()+"\n\n", contact.getAddress()+"\n\n",
             "H: " + contact.getHomePhone(),"\nM: " + contact.getMobilePhone(), "\nW: " + contact.getWorkPhone()+"\n\n",
             contact.getEmail()+"\n", contact.getEmail2()+"\n", contact.getEmail3())
             .stream().filter((s) -> !s.equals("")).collect(Collectors.joining());
