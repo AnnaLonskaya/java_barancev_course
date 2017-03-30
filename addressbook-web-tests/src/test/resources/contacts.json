@@ -1,6 +1,5 @@
 [
   {
-    "id": 2147483647,
     "fname": "Fname 0",
     "lname": "Lname 0",
     "company": "Company 0",
@@ -11,12 +10,13 @@
     "homePhone": "HomePhone 0",
     "mobilePhone": "MobilePhone 0",
     "workPhone": "WorkPhone 0",
-    "day": 0,
+    "day": 2,
+    "month": "5",
+    "year": "2000",
     "group": "[none]",
     "photo": "src\\test\\resources\\icon.jpg"
   },
   {
-    "id": 2147483647,
     "fname": "Fname 1",
     "lname": "Lname 1",
     "company": "Company 1",
@@ -27,7 +27,9 @@
     "homePhone": "HomePhone 1",
     "mobilePhone": "MobilePhone 1",
     "workPhone": "WorkPhone 1",
-    "day": 0,
+    "day": 3,
+    "month": "5",
+    "year": "2000",
     "group": "[none]",
     "photo": "src\\test\\resources\\icon.jpg"
   }

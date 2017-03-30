@@ -52,8 +52,8 @@ public class ContactDataGenerator {
   }
 
   private void saveAsJson(List<ContactData> contacts, File file) throws IOException {
-//    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();  // создаем объект типа Gson
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();  // создаем объект типа Gson
+//    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     String json = gson.toJson(contacts);  // потом вызываем метод, к-ый будет сериализовать объект. Рез-ом его работы будет строка, к-ую нужно сохранить в файл
     try (Writer writer = new FileWriter(file)) {                                                                                       // строчку в формате xml
       writer.write(json);
@@ -87,7 +87,8 @@ public class ContactDataGenerator {
               .withEmail(String.format("Email %s", i)).withEmail2(String.format("Email2 %s", i))
               .withEmail3(String.format("Email3 %s", i)).withHomePhone(String.format("HomePhone %s", i))
               .withMobilePhone(String.format("MobilePhone %s", i)).withWorkPhone(String.format("WorkPhone %s", i))
-              .withGroup("[none]").withPhoto(new File("src/test/resources/icon.jpg")));
+              .withDay(i + 1).withMonth(5).withYear("2000").withGroup("[none]")
+              .withPhoto(new File("src/test/resources/icon.jpg")));
 
     }
     return contacts;

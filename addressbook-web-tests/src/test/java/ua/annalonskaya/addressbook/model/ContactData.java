@@ -65,14 +65,17 @@ public class ContactData {
   @Transient
   private String allPhones;
 
+  @Expose
   @Column(name = "bday")
   @Type(type = "byte")
   private byte day;
 
+  @Expose
   @Column(name = "bmonth")
   @Type(type = "string")
   private String month;
 
+  @Expose
   @Column(name = "byear")
   @Type(type = "string")
   private String year;
