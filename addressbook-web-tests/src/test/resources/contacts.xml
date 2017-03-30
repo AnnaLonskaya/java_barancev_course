@@ -31,20 +31,4 @@
     <group>[none]</group>
     <photo>src\test\resources\icon.jpg</photo>
   </contact>
-  <contact>
-    <fname>Fname 2</fname>
-    <lname>Lname 2</lname>
-    <company>Company 2</company>
-    <address>Address 2</address>
-    <email>Email 2</email>
-    <email2>Email2 2</email2>
-    <email3>Email3 2</email3>
-    <homePhone>HomePhone 2</homePhone>
-    <mobilePhone>MobilePhone 2</mobilePhone>
-    <workPhone>WorkPhone 2</workPhone>
-    <day>0</day>
-    <month>0</month>
-    <group>[none]</group>
-    <photo>src\test\resources\icon.jpg</photo>
-  </contact>
 </list>

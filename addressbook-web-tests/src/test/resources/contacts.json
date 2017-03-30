@@ -12,11 +12,8 @@
     "mobilePhone": "MobilePhone 0",
     "workPhone": "WorkPhone 0",
     "day": 0,
-    "month": 0,
     "group": "[none]",
-    "photo": {
-      "path": "src\\test\\resources\\icon.jpg"
-    }
+    "photo": "src\\test\\resources\\icon.jpg"
   },
   {
     "id": 2147483647,
@@ -31,48 +28,7 @@
     "mobilePhone": "MobilePhone 1",
     "workPhone": "WorkPhone 1",
     "day": 0,
-    "month": 0,
     "group": "[none]",
-    "photo": {
-      "path": "src\\test\\resources\\icon.jpg"
-    }
-  },
-  {
-    "id": 2147483647,
-    "fname": "Fname 2",
-    "lname": "Lname 2",
-    "company": "Company 2",
-    "address": "Address 2",
-    "email": "Email 2",
-    "email2": "Email2 2",
-    "email3": "Email3 2",
-    "homePhone": "HomePhone 2",
-    "mobilePhone": "MobilePhone 2",
-    "workPhone": "WorkPhone 2",
-    "day": 0,
-    "month": 0,
-    "group": "[none]",
-    "photo": {
-      "path": "src\\test\\resources\\icon.jpg"
-    }
-  },
-  {
-    "id": 2147483647,
-    "fname": "Fname 3",
-    "lname": "Lname 3",
-    "company": "Company 3",
-    "address": "Address 3",
-    "email": "Email 3",
-    "email2": "Email2 3",
-    "email3": "Email3 3",
-    "homePhone": "HomePhone 3",
-    "mobilePhone": "MobilePhone 3",
-    "workPhone": "WorkPhone 3",
-    "day": 0,
-    "month": 0,
-    "group": "[none]",
-    "photo": {
-      "path": "src\\test\\resources\\icon.jpg"
-    }
+    "photo": "src\\test\\resources\\icon.jpg"
   }
 ]

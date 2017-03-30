@@ -178,6 +178,7 @@ public class ContactHelper extends HelperBase {
     initContactModificationById(contact.getId());
     String fname = wd.findElement(By.name("firstname")).getAttribute("value");
     String lname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String company = wd.findElement(By.name("company")).getAttribute("value");
     String address = wd.findElement(By.name("address")).getText();
     String email = wd.findElement(By.name("email")).getAttribute("value");
     String email2 = wd.findElement(By.name("email2")).getAttribute("value");
@@ -186,8 +187,9 @@ public class ContactHelper extends HelperBase {
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
     wd.navigate().back();
-    return new ContactData().withId(contact.getId()).withFname(fname).withLname(lname).withAddress(address)
-            .withEmail(email).withEmail2(email2).withEmail3(email3).withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+    return new ContactData().withId(contact.getId()).withFname(fname).withLname(lname).withCompany(company)
+            .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3).withHomePhone(home)
+            .withMobilePhone(mobile).withWorkPhone(work);
   }
 
   public ContactData infoFromDetailedPage(ContactData contact) {

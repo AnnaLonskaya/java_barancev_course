@@ -87,13 +87,13 @@ public class GroupCreationTests extends TestBase {
   // десериализация(из Json формата в объект) выполняется так: сначала нужно прочитать все содержимое файла в переменную типа String, потом её обрабатывать
 
 
-  @Test (dataProvider = "validGroupsFromJson")
+  @Test (dataProvider = "validGroupsFromXml")
   public void testGroupCreation(GroupData group) {
     app.goTo().groupPage();
-    Groups before = app.group().all();
+    Groups before = app.db().groups();
     app.group().create(group);
     assertThat(app.group().count(),equalTo(before.size() + 1));  // проверка для получения кол-ва групп. Если не совпадает, то следующей проверки не будет.
-    Groups after = app.group().all();
+    Groups after = app.db().groups();
     assertThat(after, equalTo(
             before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));  // выполняем статический импорт (исп-ся для статических глобальных ф-ций)
     //    MatcherAssert.assertThat(after, CoreMatchers.equalTo(before));  // используем класс MatcherAssert. equalTo()-это метод в классе CoreMatchers. Проверяем совпадения двух объектов.
@@ -102,11 +102,11 @@ public class GroupCreationTests extends TestBase {
   @Test
   public void testBadGroupCreation() {
     app.goTo().groupPage();
-    Groups before = app.group().all();
+    Groups before = app.db().groups();
     GroupData group = new GroupData().withName("test'");
     app.group().create(group);
     assertThat(app.group().count(),equalTo(before.size()));
-    Groups after = app.group().all();
+    Groups after = app.db().groups();
     assertThat(after, equalTo(before));
   }
 

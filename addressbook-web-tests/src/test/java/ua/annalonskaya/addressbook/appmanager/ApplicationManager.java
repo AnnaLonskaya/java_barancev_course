@@ -7,15 +7,11 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by Admin on 19.02.2017.
- */
 public class ApplicationManager {
   private final Properties properties;
   WebDriver wd;
@@ -25,6 +21,7 @@ public class ApplicationManager {
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
   private String browser;
+  private DbHelper dbHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -34,6 +31,8 @@ public class ApplicationManager {
   public void init() throws IOException {
     String target = System.getProperty("target", "local");  // это часть имени конфигурац-го файла, исп-ем local в качестве дефолтного значения
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));  // Загружаем свойства
+
+    dbHelper = new DbHelper();
 
     if (browser.equals (BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
@@ -66,6 +65,10 @@ public class ApplicationManager {
 
   public ContactHelper contact() {
     return contactHelper;
+  }
+
+  public DbHelper db() {
+    return dbHelper;
   }
 
 }
