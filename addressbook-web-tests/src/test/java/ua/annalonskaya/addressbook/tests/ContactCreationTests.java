@@ -3,11 +3,13 @@ package ua.annalonskaya.addressbook.tests;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ua.annalonskaya.addressbook.model.ContactData;
 import ua.annalonskaya.addressbook.model.Contacts;
 import ua.annalonskaya.addressbook.model.GroupData;
+import ua.annalonskaya.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,10 +56,19 @@ public class ContactCreationTests extends TestBase {
     }
   }
 
+  @BeforeMethod
+  public void ensurePreconditions() {
+    if (app.db().groups().size() == 0) {  // делаем проверку условия через прямое обращение к БД
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("test1"));
+    }
+  }
+
   @Test (dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData contact) {
+    Groups groups = app.db().groups(); // извлекаем из БД инф-цию обо всех группах, чтобы выбрать потом какую-то из них
     Contacts before = app.db().contacts();
-    app.contact().create(contact, true);
+    app.contact().create(contact.inGroup(groups.iterator().next()));
     assertThat(app.contact().count(),equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(
@@ -70,8 +81,8 @@ public class ContactCreationTests extends TestBase {
     Contacts before = app.db().contacts();
     ContactData contact = new ContactData()
             .withLname("Sunny").withFname("Irina'").withCompany("Incom").withAddress("Street").withEmail("1@mail.ru").withHomePhone("123456789")
-            .withDay(6).withMonth("May").withYear("2000").withGroup( "[none]");
-    app.contact().create(contact, true);
+            .withDay(6).withMonth("May").withYear("2000");
+    app.contact().create(contact);
     assertThat(app.contact().count(),equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before));

@@ -5,10 +5,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("group") // аннотация для создания xml файлов (исп-ем тег group)
 @Entity  // эта аннотация объявляет класс GroupData привязанным к БД (hibernate)
@@ -32,6 +31,9 @@ public class GroupData {
   @Column(name = "group_footer")
   @Type(type = "text")
   private String footer;
+
+  @ManyToMany(mappedBy = "groups") // это означает, что в парном классе ContactData нужно найти атрибут groups и оттуда взять все описание как организована связь между объектами
+  private Set<ContactData> contacts = new HashSet<ContactData>();
 
   public int getId() {
     return id;
@@ -67,6 +69,10 @@ public class GroupData {
   public GroupData withtFooter(String footer) {  // setFooter (сеттер)
     this.footer = footer;
     return this;
+  }
+
+  public Contacts getContacts() {
+    return new Contacts(contacts);
   }
 
   @Override

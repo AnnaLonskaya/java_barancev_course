@@ -7,6 +7,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("contact")
 @Entity
@@ -80,11 +82,7 @@ public class ContactData {
   @Type(type = "string")
   private String year;
 
-  @Expose
   @Transient  // поле будет пропущено и не будет извлекаться из БД  (hibernate)
-  private String group;
-
-  @Transient
   private String allContactDetails;
 
   @Expose
@@ -94,6 +92,11 @@ public class ContactData {
 
   @Transient
   private int age;
+
+  @ManyToMany (fetch = FetchType.EAGER) // аннотация прим-ся к атрибутам, к-ые представляют собой коллекцию объектов какого-то другого типа (в клаасе ContactData будет множество групп, а в классе GroupData будет множество контактов)
+  @JoinTable(name = "address_in_groups", // в качестве связующей таблицы исп-ся таблица  "address_in_groups". fetch = FetchType.EAGER - из БД извлекается как можно больше информации за один заход
+          joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+  private Set<GroupData> groups = new HashSet<GroupData>();  // согласно документации нужно сразу инициализировать это свойство, т.е. создать пустое множество
 
   public int getId() {
     return id;
@@ -250,13 +253,8 @@ public class ContactData {
     return this;
   }
 
-  public String getGroup() {
-    return group;
-  }
-
-  public ContactData withGroup(String group) {
-    this.group = group;
-    return this;
+  public Groups getGroups() {   // делаем так, чтобы геттер возвращал объект типа Groups, для этого внутри делаем преобразование (множество превратить в
+    return new Groups(groups);  // объект типа Groups). При этом создается копия
   }
 
   public String getAllContactDetails() {
@@ -278,6 +276,11 @@ public class ContactData {
 
   public ContactData withPhoto(File photo) {
     this.photo = photo.getPath();
+    return this;
+  }
+
+  public ContactData inGroup(GroupData group) {
+    groups.add(group);
     return this;
   }
 

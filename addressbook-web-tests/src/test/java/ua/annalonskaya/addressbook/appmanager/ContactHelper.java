@@ -42,9 +42,11 @@ public class ContactHelper extends HelperBase {
     type(By.name("byear"), contactData.getYear());
     attach(By.name("photo"), contactData.getPhoto());  // передаем в качестве параметра не просто рез-т выполнения getPhoto(), нужно преобразовать его
                                                      // в строку, к-ая содержит полный абсолютный путь к этому файлу
-
     if (creation) {
-      select(By.name("new_group"), contactData.getGroup());
+      if (contactData.getGroups().size() > 0) {
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        select(By.name("new_group"), contactData.getGroups().iterator().next().getName());  // извлекаем какую-то группу и берем у нее имя
+      }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -102,9 +104,9 @@ public class ContactHelper extends HelperBase {
     click(By.name("update"));
   }
 
-  public void create (ContactData contact, boolean chooseGroup) {
+  public void create (ContactData contact) {
     initContactCreation();
-    fillContactForm(contact, chooseGroup);
+    fillContactForm(contact, true);
     submitContactCreation();
     contactsCache = null;
   }

@@ -13,7 +13,7 @@
     "day": 2,
     "month": "March",
     "year": "2000",
-    "group": "[none]",
+    "group": "test1",
     "photo": "src\\test\\resources\\icon.jpg"
   },
   {
@@ -30,7 +30,7 @@
     "day": 2,
     "month": "March",
     "year": "2000",
-    "group": "[none]",
+    "group": "test1",
     "photo": "src\\test\\resources\\icon.jpg"
   }
 ]
