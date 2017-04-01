@@ -17,14 +17,14 @@ public class ContactDetailedPageTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     Groups groups = app.db().groups();
+    if (app.db().groups().size() == 0) {
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("test1"));
+    }
     if (app.db().contacts().size() == 0) {
       app.contact().create(new ContactData().withLname("Sunny").withFname("Irina").withCompany("Incom")
               .withAddress("Street").withEmail("1@mail.ru").withHomePhone("123456789")
               .withDay(6).withMonth("May").withYear("2000").inGroup(groups.iterator().next()));
-    }
-    if (app.db().groups().size() == 0) {
-      app.goTo().groupPage();
-      app.group().create(new GroupData().withName("test1"));
     }
   }
 
