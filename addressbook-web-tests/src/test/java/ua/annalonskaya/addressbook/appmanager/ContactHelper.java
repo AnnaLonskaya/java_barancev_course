@@ -8,9 +8,13 @@ import org.testng.Assert;
 import ua.annalonskaya.addressbook.model.ContactData;
 import ua.annalonskaya.addressbook.model.Contacts;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ContactHelper extends HelperBase {
 
@@ -175,11 +179,24 @@ public class ContactHelper extends HelperBase {
     return contactsCache;
   }
 
-  public int getAge(ContactData contact)
-  {
-    Calendar cd = Calendar.getInstance();
+  private int calcYears(ContactData contact) {
     int byear = Integer.parseInt(wd.findElement(By.name("byear")).getAttribute("value"));
-    return (cd.get(Calendar.YEAR)) - byear;
+    String bmonth = wd.findElement(By.xpath("//select[@name='bmonth']/option[@selected='selected']")).getText();
+    int bday = Integer.parseInt(wd.findElement(By.xpath("//select[@name='bday']/option[@selected='selected']")).getText());
+    int years = 0;
+    try {
+      SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM", Locale.ENGLISH);
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(inputFormat.parse(bmonth));
+      SimpleDateFormat outputFormat = new SimpleDateFormat("MM");
+      int month = Integer.parseInt((outputFormat.format(cal.getTime())));
+      LocalDate start = LocalDate.of(byear, month, bday);
+      LocalDate end = LocalDate.now();
+      years = Math.toIntExact(ChronoUnit.YEARS.between(start, end));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return years;
   }
 
   public ContactData infoFromEditForm(ContactData contact) {
@@ -197,7 +214,7 @@ public class ContactHelper extends HelperBase {
     int bday = Integer.parseInt(wd.findElement(By.xpath("//select[@name='bday']/option[@selected='selected']")).getText());
     String bmonth = wd.findElement(By.xpath("//select[@name='bmonth']/option[@selected='selected']")).getText();
     String byear = wd.findElement(By.name("byear")).getAttribute("value");
-    int age = getAge(contact);
+    int age = calcYears(contact);
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFname(fname).withLname(lname).withCompany(company)
             .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3).withHomePhone(home)
