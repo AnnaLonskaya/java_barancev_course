@@ -186,10 +186,13 @@ public class ContactHelper extends HelperBase {
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
+    int bday = Integer.parseInt(wd.findElement(By.xpath("//select[@name='bday']/option[@selected='selected']")).getText());
+    String bmonth = wd.findElement(By.xpath("//select[@name='bmonth']/option[@selected='selected']")).getText();
+    String byear = wd.findElement(By.name("byear")).getAttribute("value");
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFname(fname).withLname(lname).withCompany(company)
             .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3).withHomePhone(home)
-            .withMobilePhone(mobile).withWorkPhone(work);
+            .withMobilePhone(mobile).withWorkPhone(work).withDay(bday).withMonth(bmonth).withYear(byear);
   }
 
   public ContactData infoFromDetailedPage(ContactData contact) {

@@ -24,7 +24,7 @@ public class DbHelper {
     sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
   }
 
-  public Groups groups() {  // метод для получения списка групп
+  public Groups groups() {  // метод для получения списка групп из БД
     Session session = sessionFactory.openSession();
     session.beginTransaction();
     List<GroupData> result = session.createQuery("from GroupData").list();

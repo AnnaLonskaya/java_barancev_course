@@ -23,7 +23,7 @@ public class ContactDataGenerator {
   @Parameter(names = "-f", description = "Target file")
   public String file;
 
-  @Parameter(names = "-d", description = "Data format")
+  @Parameter(names = "-d", description = "Data format")  // формат xml или csv ( -c 2 -f src/test/resources/contacts.json -d json)
   public String format;
 
   public static void main(String[] args) throws IOException {
@@ -87,7 +87,7 @@ public class ContactDataGenerator {
               .withEmail(String.format("Email %s", i)).withEmail2(String.format("Email2 %s", i))
               .withEmail3(String.format("Email3 %s", i)).withHomePhone(String.format("HomePhone %s", i))
               .withMobilePhone(String.format("MobilePhone %s", i)).withWorkPhone(String.format("WorkPhone %s", i))
-              .withDay(i + 1).withMonth(5).withYear("2000").withGroup("[none]")
+              .withDay(i + 2).withMonth("May").withYear("2000").withGroup("[none]")
               .withPhoto(new File("src/test/resources/icon.jpg")));
 
     }

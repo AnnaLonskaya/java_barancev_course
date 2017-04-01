@@ -62,6 +62,7 @@ public class ContactCreationTests extends TestBase {
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+    verifyContactListInUI();
   }
 
   @Test
@@ -69,11 +70,12 @@ public class ContactCreationTests extends TestBase {
     Contacts before = app.db().contacts();
     ContactData contact = new ContactData()
             .withLname("Sunny").withFname("Irina'").withCompany("Incom").withAddress("Street").withEmail("1@mail.ru").withHomePhone("123456789")
-            .withDay(6).withMonth(10).withYear("2000").withGroup( "[none]");
+            .withDay(6).withMonth("May").withYear("2000").withGroup( "[none]");
     app.contact().create(contact, true);
     assertThat(app.contact().count(),equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before));
+    verifyContactListInUI();
   }
 
   @Test (enabled = false)  // не запускать

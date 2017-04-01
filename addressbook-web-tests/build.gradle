@@ -32,6 +32,9 @@ task testGroups (type: Test) {    // gradlew testGroups
     if (project.hasProperty('target')) {
         systemProperty 'target', "${target}"    // в консоли gradlew -Ptarget=local testContacts  - и тесты запустятся в ФФ
     }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
 }
 
 task testContacts (type: Test) {
@@ -43,6 +46,9 @@ task testContacts (type: Test) {
     }
     if (project.hasProperty('target')) {
         systemProperty 'target', "${target}"
+    }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
     }
 }
 

@@ -220,12 +220,12 @@ public class ContactData {
     return this;
   }
 
-  public int getMonth() {
-    return new Integer(month);
+  public String getMonth() {
+    return month;
   }
 
-  public ContactData withMonth(int month) {
-    this.month = String.valueOf(month);
+  public ContactData withMonth(String month) {
+    this.month = month;
     return this;
   }
 
@@ -275,7 +275,6 @@ public class ContactData {
             "id=" + id +
             ", fname='" + fname + '\'' +
             ", lname='" + lname + '\'' +
-            ", company='" + company + '\'' +
             ", address='" + address + '\'' +
             '}';
   }
@@ -290,7 +289,6 @@ public class ContactData {
     if (id != that.id) return false;
     if (fname != null ? !fname.equals(that.fname) : that.fname != null) return false;
     if (lname != null ? !lname.equals(that.lname) : that.lname != null) return false;
-    if (company != null ? !company.equals(that.company) : that.company != null) return false;
     return address != null ? address.equals(that.address) : that.address == null;
   }
 
@@ -299,7 +297,6 @@ public class ContactData {
     int result = id;
     result = 31 * result + (fname != null ? fname.hashCode() : 0);
     result = 31 * result + (lname != null ? lname.hashCode() : 0);
-    result = 31 * result + (company != null ? company.hashCode() : 0);
     result = 31 * result + (address != null ? address.hashCode() : 0);
     return result;
   }
