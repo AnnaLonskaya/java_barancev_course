@@ -11,7 +11,7 @@
     "mobilePhone": "MobilePhone 0",
     "workPhone": "WorkPhone 0",
     "day": 2,
-    "month": "May",
+    "month": "March",
     "year": "2000",
     "group": "[none]",
     "photo": "src\\test\\resources\\icon.jpg"
@@ -28,7 +28,7 @@
     "mobilePhone": "MobilePhone 1",
     "workPhone": "WorkPhone 1",
     "day": 2,
-    "month": "May",
+    "month": "March",
     "year": "2000",
     "group": "[none]",
     "photo": "src\\test\\resources\\icon.jpg"

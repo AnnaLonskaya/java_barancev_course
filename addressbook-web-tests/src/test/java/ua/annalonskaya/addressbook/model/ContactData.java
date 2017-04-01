@@ -92,6 +92,9 @@ public class ContactData {
   @Type(type = "text")
   private String photo;  // тип атрибута File переименовываем на String, т.к. hibernate не сможет прочитать его из БД, а преобразование в File делаем внутри геттера и сеттера
 
+  @Transient
+  private int age;
+
   public int getId() {
     return id;
   }
@@ -238,6 +241,15 @@ public class ContactData {
     return this;
   }
 
+  public int getAge() {
+    return age;
+  }
+
+  public ContactData withAge(int age) {
+    this.age = age;
+    return this;
+  }
+
   public String getGroup() {
     return group;
   }
@@ -300,4 +312,5 @@ public class ContactData {
     result = 31 * result + (address != null ? address.hashCode() : 0);
     return result;
   }
+
 }

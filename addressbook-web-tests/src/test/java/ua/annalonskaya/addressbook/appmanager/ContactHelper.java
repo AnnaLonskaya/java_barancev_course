@@ -9,6 +9,7 @@ import ua.annalonskaya.addressbook.model.ContactData;
 import ua.annalonskaya.addressbook.model.Contacts;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -174,6 +175,13 @@ public class ContactHelper extends HelperBase {
     return contactsCache;
   }
 
+  public int getAge(ContactData contact)
+  {
+    Calendar cd = Calendar.getInstance();
+    int byear = Integer.parseInt(wd.findElement(By.name("byear")).getAttribute("value"));
+    return (cd.get(Calendar.YEAR)) - byear;
+  }
+
   public ContactData infoFromEditForm(ContactData contact) {
     initContactModificationById(contact.getId());
     String fname = wd.findElement(By.name("firstname")).getAttribute("value");
@@ -189,10 +197,11 @@ public class ContactHelper extends HelperBase {
     int bday = Integer.parseInt(wd.findElement(By.xpath("//select[@name='bday']/option[@selected='selected']")).getText());
     String bmonth = wd.findElement(By.xpath("//select[@name='bmonth']/option[@selected='selected']")).getText();
     String byear = wd.findElement(By.name("byear")).getAttribute("value");
+    int age = getAge(contact);
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFname(fname).withLname(lname).withCompany(company)
             .withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3).withHomePhone(home)
-            .withMobilePhone(mobile).withWorkPhone(work).withDay(bday).withMonth(bmonth).withYear(byear);
+            .withMobilePhone(mobile).withWorkPhone(work).withDay(bday).withMonth(bmonth).withYear(byear).withAge(age);
   }
 
   public ContactData infoFromDetailedPage(ContactData contact) {
