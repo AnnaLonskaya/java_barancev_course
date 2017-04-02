@@ -10,7 +10,7 @@ import ua.annalonskaya.addressbook.model.Groups;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactAddToGroupTest extends TestBase {
+public class ContactRemoveFromGroupTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
@@ -28,27 +28,22 @@ public class ContactAddToGroupTest extends TestBase {
   }
 
   @Test
-  public void testContactAddToGroup() {
-    app.goTo().gotoHomePage();
+  public void testContactRemoveFromGroup() {
     Groups groups = app.db().groups();
+    app.goTo().gotoHomePage();
     Contacts before = app.db().contacts();
-    ContactData addedToGroupContact = before.iterator().next();
-    if (addedToGroupContact.getGroups().size() == app.db().groups().size()) {
-      app.goTo().groupPage();
-      GroupData group = new GroupData().withName("test3");
-      app.group().create(group);
+    ContactData removedFromGroupContact = before.iterator().next();
+    if (removedFromGroupContact.getGroups().size()==0) {
+      removedFromGroupContact = app.contact().addContactToGroup(removedFromGroupContact, groups.iterator().next());
       app.goTo().gotoHomePage();
-      app.contact().addContactToGroupByName(addedToGroupContact, group);
-    } else {
-      app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next());
     }
+    app.contact().removeContactFromGroup(removedFromGroupContact, removedFromGroupContact.getGroups().iterator().next());
     app.goTo().gotoHomePage();
 
-    assertThat(app.contact().count(), equalTo(before.size()));
+    assertThat(app.contact().count(),equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before));
-    Contacts dr = app.db().contactInGroup(addedToGroupContact, groups.iterator().next());
-    assertThat(app.db().contactInGroup(addedToGroupContact, groups.iterator().next()), equalTo(after));  // вот здесь я не знаю, как правильно сравнить
+    // проверка, что контакт удален из группы
   }
 
 }

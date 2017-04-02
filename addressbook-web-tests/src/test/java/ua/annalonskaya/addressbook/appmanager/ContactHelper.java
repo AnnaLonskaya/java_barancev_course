@@ -42,7 +42,7 @@ public class ContactHelper extends HelperBase {
     select(By.name("bmonth"), contactData.getMonth());
     type(By.name("byear"), contactData.getYear());
     attach(By.name("photo"), contactData.getPhoto());  // передаем в качестве параметра не просто рез-т выполнения getPhoto(), нужно преобразовать его
-                                                     // в строку, к-ая содержит полный абсолютный путь к этому файлу
+    // в строку, к-ая содержит полный абсолютный путь к этому файлу
     if (creation) {
       if (contactData.getGroups().size() > 0) {
         Assert.assertTrue(contactData.getGroups().size() == 1);
@@ -74,7 +74,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void initContactModification(int index) {
-   wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
   }
 
   public void initContactModificationById(int id) {
@@ -109,7 +109,7 @@ public class ContactHelper extends HelperBase {
     click(By.name("update"));
   }
 
-  public void create (ContactData contact) {
+  public void create(ContactData contact) {
     initContactCreation();
     fillContactForm(contact, true);
     submitContactCreation();
@@ -136,40 +136,56 @@ public class ContactHelper extends HelperBase {
     contactsCache = null;
   }
 
-  public ContactData addToGroup(ContactData contact, GroupData group) {
-    initContactActionWithGroupById(contact.getId());
-    addContactToGroup(group, group.getId());
-    return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())
-            .withLname(contact.getLname()).withAddress(contact.getAddress());
-  }
-
-  public ContactData addContactToGroup(GroupData group, int id) {
+  public ContactData chooseContactForAddingToGroup(GroupData group, int id) {
     WebElement chooseGroup = wd.findElement(By.xpath("//select[@name='to_group']//option[@value='" + id + "']"));
     chooseGroup.click();
     click(By.name("add"));
     return new ContactData().inGroup(group);
   }
 
-  public ContactData addToGroupByName(ContactData contact, GroupData group) {
-    initContactActionWithGroupById(contact.getId());
-    addContactToGroupByName(group, group.getName());
-    return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())
-            .withLname(contact.getLname()).withAddress(contact.getAddress());
-  }
-
-  public ContactData addContactToGroupByName(GroupData group, String name) {
+  public ContactData chooseContactForAddingToGroupByName(GroupData group, String name) {
     WebElement chooseGroup = wd.findElement(By.xpath(String.format("//select[@name='to_group']//option[contains(text(),'%s')]", name)));
     chooseGroup.click();
     click(By.name("add"));
     return new ContactData().inGroup(group);
   }
 
-  public void removeFromGroup(ContactData contact, GroupData group) {
+  public ContactData addContactToGroup(ContactData contact, GroupData group) {
     initContactActionWithGroupById(contact.getId());
-
+    chooseContactForAddingToGroup(group, group.getId());
+    return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())
+            .withLname(contact.getLname()).withAddress(contact.getAddress());
   }
 
-  public void goToDetailedPage (ContactData contact) {
+  public ContactData addContactToGroupByName(ContactData contact, GroupData group) {
+    initContactActionWithGroupById(contact.getId());
+    chooseContactForAddingToGroupByName(group, group.getName());
+    return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())
+            .withLname(contact.getLname()).withAddress(contact.getAddress());
+  }
+
+  public void removeContactFromGroup(ContactData contact, GroupData group) {
+    initContactActionWithGroupById(contact.getId());
+    chooseGroupFromList(group.getId());
+    initContactActionWithGroupById(contact.getId());
+    submitContactDeletionFromGroup();
+    chooseAllGroupsFromTheList();
+  }
+
+  private void chooseAllGroupsFromTheList() {
+    click(By.linkText("home"));
+    wd.findElement(By.cssSelector("option[value='']")).click();
+  }
+
+  private void submitContactDeletionFromGroup() {
+    click(By.name("remove"));
+  }
+
+  private void chooseGroupFromList(int id) {
+    wd.findElement(By.cssSelector("option[value='" + id + "']")).click();
+  }
+
+  public void goToDetailedPage(ContactData contact) {
     initContactDetailedPageById(contact.getId());
   }
 
@@ -178,7 +194,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public int count() {
-    return  wd.findElements(By.name("selected[]")).size();
+    return wd.findElements(By.name("selected[]")).size();
   }
 
   private Contacts contactsCache = null;
@@ -188,7 +204,7 @@ public class ContactHelper extends HelperBase {
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.tagName("td"));
-      int id =  Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
       String lname = cells.get(1).getText();
       String fname = cells.get(2).getText();
       contacts.add(new ContactData().withId(id).withLname(lname).withFname(fname));
@@ -204,7 +220,7 @@ public class ContactHelper extends HelperBase {
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.tagName("td"));
-      int id =  Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
       String lname = cells.get(1).getText();
       String fname = cells.get(2).getText();
       String address = cells.get(3).getText();
