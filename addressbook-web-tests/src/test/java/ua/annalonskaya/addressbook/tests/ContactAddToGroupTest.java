@@ -40,7 +40,7 @@ public class ContactAddToGroupTest extends TestBase {
       app.goTo().gotoHomePage();
       app.contact().addContactToGroupByName(addedToGroupContact, group);
     } else {
-      app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next());
+      app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next()); // как сделать так, чтобы контакт добавлялся в ту группу, в к-ой он еще не добавлен
     }
     app.goTo().gotoHomePage();
 
