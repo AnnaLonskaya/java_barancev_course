@@ -30,7 +30,25 @@ public class ContactAddToGroupTest extends TestBase {
   @Test
   public void testContactAddToGroup() {
     app.goTo().gotoHomePage();
-    ContactData contact = app.contact().all().iterator().next();
+    Groups groups = app.db().groups();
+    Contacts before = app.db().contacts();
+    ContactData addedToGroupContact = before.iterator().next();
+    if (addedToGroupContact.getGroups().size() == app.db().groups().size()) {
+      app.goTo().groupPage();
+      GroupData group = new GroupData().withName("test3");
+      app.group().create(group);
+      app.goTo().gotoHomePage();
+      app.contact().addToGroupByName(addedToGroupContact, group);
+    } else {
+      app.contact().addToGroup(addedToGroupContact, groups.iterator().next());
+    }
+    app.goTo().gotoHomePage();
+
+    assertThat(app.contact().count(), equalTo(before.size()));
+    Contacts after = app.db().contacts();
+    assertThat(after, equalTo(before));
+    Contacts dr = app.db().contactInGroup(addedToGroupContact, groups.iterator().next());
+    assertThat(app.db().contactInGroup(addedToGroupContact, groups.iterator().next()), equalTo(after));  // вот здесь я не знаю, как правильно сравнить
   }
 
 }

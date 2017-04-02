@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ua.annalonskaya.addressbook.model.ContactData;
 import ua.annalonskaya.addressbook.model.Contacts;
+import ua.annalonskaya.addressbook.model.GroupData;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -88,6 +89,10 @@ public class ContactHelper extends HelperBase {
 //    wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
   }
 
+  private void initContactActionWithGroupById(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+  }
+
   public void initContactDeletionById(int id) {
     WebElement checkbox = wd.findElement(By.cssSelector("input[value='" + id + "']"));
     checkbox.click();
@@ -129,6 +134,39 @@ public class ContactHelper extends HelperBase {
     submitContactDeletion();
     acceptAlert();
     contactsCache = null;
+  }
+
+  public ContactData addToGroup(ContactData contact, GroupData group) {
+    initContactActionWithGroupById(contact.getId());
+    addContactToGroup(group, group.getId());
+    return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())
+            .withLname(contact.getLname()).withAddress(contact.getAddress());
+  }
+
+  public ContactData addContactToGroup(GroupData group, int id) {
+    WebElement chooseGroup = wd.findElement(By.xpath("//select[@name='to_group']//option[@value='" + id + "']"));
+    chooseGroup.click();
+    click(By.name("add"));
+    return new ContactData().inGroup(group);
+  }
+
+  public ContactData addToGroupByName(ContactData contact, GroupData group) {
+    initContactActionWithGroupById(contact.getId());
+    addContactToGroupByName(group, group.getName());
+    return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())
+            .withLname(contact.getLname()).withAddress(contact.getAddress());
+  }
+
+  public ContactData addContactToGroupByName(GroupData group, String name) {
+    WebElement chooseGroup = wd.findElement(By.xpath(String.format("//select[@name='to_group']//option[contains(text(),'%s')]", name)));
+    chooseGroup.click();
+    click(By.name("add"));
+    return new ContactData().inGroup(group);
+  }
+
+  public void removeFromGroup(ContactData contact, GroupData group) {
+    initContactActionWithGroupById(contact.getId());
+
   }
 
   public void goToDetailedPage (ContactData contact) {
