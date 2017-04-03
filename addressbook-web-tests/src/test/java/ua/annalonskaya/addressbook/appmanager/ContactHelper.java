@@ -89,7 +89,7 @@ public class ContactHelper extends HelperBase {
 //    wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
   }
 
-  public void initContactActionWithGroupById(int id) {
+  private void initContactActionWithGroupById(int id) {
     wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
@@ -136,10 +136,11 @@ public class ContactHelper extends HelperBase {
     contactsCache = null;
   }
 
-  public void chooseAndAddContactToGroup(int id) {
+  public ContactData chooseContactForAddingToGroup(GroupData group, int id) {
     WebElement chooseGroup = wd.findElement(By.xpath("//select[@name='to_group']//option[@value='" + id + "']"));
     chooseGroup.click();
     click(By.name("add"));
+    return new ContactData().inGroup(group);
   }
 
   public ContactData chooseContactForAddingToGroupByName(GroupData group, String name) {
@@ -149,7 +150,14 @@ public class ContactHelper extends HelperBase {
     return new ContactData().inGroup(group);
   }
 
-   public ContactData addContactToGroupByName(ContactData contact, GroupData group) {
+  public ContactData addContactToGroup(ContactData contact, GroupData group) {
+    initContactActionWithGroupById(contact.getId());
+    chooseContactForAddingToGroup(group, group.getId());
+    return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())
+            .withLname(contact.getLname()).withAddress(contact.getAddress());
+  }
+
+  public ContactData addContactToGroupByName(ContactData contact, GroupData group) {
     initContactActionWithGroupById(contact.getId());
     chooseContactForAddingToGroupByName(group, group.getName());
     return new ContactData().inGroup(group).withId(contact.getId()).withFname(contact.getFname())

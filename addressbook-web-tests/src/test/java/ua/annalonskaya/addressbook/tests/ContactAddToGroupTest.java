@@ -19,9 +19,11 @@ public class ContactAddToGroupTest extends TestBase {
       app.group().create(new GroupData().withName("test1"));
     }
     if (app.db().contacts().size() == 0) {
+      Groups groups = app.db().groups();
       app.goTo().gotoHomePage();
-      app.contact().create(new ContactData().withLname("Sun").withFname("Ira").withCompany("Incom").withAddress("Street")
-              .withEmail("1@mail.ru").withHomePhone("123456789").withDay(6).withMonth("May").withYear("2000"));
+      app.contact().create(new ContactData().withLname("Sunny").withFname("Irina").withCompany("Incom")
+              .withAddress("Street").withEmail("1@mail.ru").withHomePhone("123456789")
+              .withDay(6).withMonth("May").withYear("2000").inGroup(groups.iterator().next()));
     }
   }
 
@@ -31,7 +33,6 @@ public class ContactAddToGroupTest extends TestBase {
     Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
     ContactData addedToGroupContact = before.iterator().next();
-    GroupData addedGroup = groups.iterator().next();
     if (addedToGroupContact.getGroups().size() == app.db().groups().size()) {
       app.goTo().groupPage();
       GroupData group = new GroupData().withName("test3");
@@ -39,14 +40,15 @@ public class ContactAddToGroupTest extends TestBase {
       app.goTo().gotoHomePage();
       app.contact().addContactToGroupByName(addedToGroupContact, group);
     } else {
-      app.contact().initContactActionWithGroupById(addedToGroupContact.getId()); // как сделать так, чтобы контакт добавлялся в ту группу, в к-ой он еще не добавлен
-      app.contact().chooseAndAddContactToGroup(addedGroup.getId());
+      app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next()); // как сделать так, чтобы контакт добавлялся в ту группу, в к-ой он еще не добавлен
     }
     app.goTo().gotoHomePage();
 
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.db().contacts();
-    assertThat(after, equalTo(before.without(addedToGroupContact).withAdded(addedToGroupContact.inGroup(addedGroup))));
+    assertThat(after, equalTo(before));
+    Contacts dr = app.db().contactInGroup(addedToGroupContact, groups.iterator().next());
+    assertThat(app.db().contactInGroup(addedToGroupContact, groups.iterator().next()), equalTo(after));  // вот здесь я не знаю, как правильно сравнить
   }
 
 }
