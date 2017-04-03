@@ -1,0 +1,40 @@
+// этот конфигурационный файл дя сборщика Gradle пишется на Groovy
+apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "ua.annalonskaya.sandbox.MyProgram"
+
+repositories{
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.testng:testng:6.10'
+    compile 'org.seleniumhq.selenium:selenium-java:2.53.1'
+    compile 'org.hamcrest:java-hamcrest:2.0.0.0'
+}
+
+// чтобы запустить тесты из консоли из директории проекта в cmd вводим gradlew test (gradlew cleanTest test).
+// по умолчанию gradle запускает тесты с использованием фреймворка junit, а мы используем TestNG. Теперь он найдет и запустит все тесты,
+// к-ые созданы с исп-ем тестового фреймворка TestNG.
+test {
+    useTestNG() {
+        suites 'src/test/resources/testng-groups.xml'    // указываем какой именно файл из тестового набора мы хотим исп-ть
+    }
+    if (project.hasProperty('browser')) {       // если проект, к-ый мы собираем имеет свойство 'browser', тогда уст-ем системное свойство 'browser',
+        systemProperty 'browser', "${browser}"  // иначе будет использовано дефолтное значение браузера, к-ое определено в TestBase.
+    }                                           // в консоли gradlew -Pbrowser=firefox testContacts  - и тесты запустятся в ФФ
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"    // в консоли gradlew -Ptarget=local testContacts  - и тесты запустятся в ФФ
+    }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
+}
+
+
+
+//test {     // запускаем все тесты (gradlew test)
+//    useTestNG() {
+//        suites 'src/test/resources/testng.xml'    // указываем какой именно файл из тестового набора мы хотим исп-ть
+//    }
+//}
