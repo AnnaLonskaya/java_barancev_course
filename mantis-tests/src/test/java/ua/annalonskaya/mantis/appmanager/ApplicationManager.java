@@ -19,6 +19,7 @@ public class ApplicationManager {
 
   private String browser;
   private RegistrationHelper registrationHelper;
+  private FtpHelper ftp;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -38,6 +39,13 @@ public class ApplicationManager {
 
   public HttpSession newSession() {  // этот метод будет инициализировать помощника при каждом обращении(т.к. он инициализируется мгновенно мы можем
     return new HttpSession(this);   // открывать таких сессий сколько угодно) и можно открывать сразу несколько сессий от имени тестировщика, от имени администратора и т.д.
+  }
+
+  public FtpHelper ftp() {
+    if (ftp == null) {
+      ftp = new FtpHelper(this);
+    }
+    return ftp;
   }
 
   public String getProperty (String key) { // в качестве параметра метод принимает имя свойства ,к-ое надо извлечь
