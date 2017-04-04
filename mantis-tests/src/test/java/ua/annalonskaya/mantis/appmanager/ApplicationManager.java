@@ -43,4 +43,12 @@ public class ApplicationManager {
     wd.quit();
   }
 
+  public HttpSession newSession() {  // этот метод будет инициализировать помощника при каждом обращении(т.к. он инициализируется мгновенно мы можем
+    return new HttpSession(this);   // открывать таких сессий сколько угодно) и можно открывать сразу несколько сессий от имени тестировщика, от имени администратора и т.д.
+  }
+
+  public String getProperty (String key) { // в качестве параметра метод принимает имя свойства ,к-ое надо извлечь
+    return properties.getProperty(key);
+  }
+
 }
