@@ -20,6 +20,7 @@ public class ApplicationManager {
   private String browser;
   private RegistrationHelper registrationHelper;
   private FtpHelper ftp;
+ private MailHelper mailHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -57,6 +58,13 @@ public class ApplicationManager {
       registrationHelper = new RegistrationHelper(this); // в качестве параметра передаем this, т.е. ссылку на ApplicationManager (менеджер нанимает помощника и передает )
     }                                                         //  ему ссылку на самого себя
     return registrationHelper;
+  }
+
+  public MailHelper mail() {
+    if (mailHelper == null) {
+      mailHelper = new MailHelper(this);
+    }
+    return mailHelper;
   }
 
   public WebDriver getDriver() {  // чтобы инициализация была ленивой, переносим её в этот метод
