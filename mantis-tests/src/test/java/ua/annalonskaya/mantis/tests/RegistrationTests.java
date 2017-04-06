@@ -11,28 +11,28 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
+import static ua.annalonskaya.mantis.appmanager.ApplicationManager.random;
 
 public class RegistrationTests extends TestBase {
 
-  @BeforeMethod
+  @BeforeMethod  // отключаем, если не будем использовать встроенный почтовый сервер, а будем исп-ть внешний
   public void startMailServer() {
     app.mail().start();
   }
 
-  @Test
-  public void testRegistration() throws IOException, MessagingException {
-    long now = System.currentTimeMillis(); // ф-ция возвращает текущее время в милисекундах
-    String user = String.format("user%s", now);
-    String password = "password";
-    String email = String.format("user%s@localhost.localdomain", now);
-    app.registration().start(user, email);
-    List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);  // ожидаем 2 письма 10 секунд (админу и польз-лю)
-    String confirmationLink = findConfirmationLink(mailMessages, email); // среди всех писем находим то, к-ое отправлено на адрес email и извлекаем из него ссылку
-    app.registration().finish(confirmationLink, password);
-    assertTrue(app.newSession().login(user, password));
-  }
-
-
+//  @Test                                                                                  // тест при испльз-ии внешнего почтового сервера
+//  public void testRegistration() throws IOException, MessagingException {
+//    long now = System.currentTimeMillis(); // ф-ция возвращает текущее время в милисекундах
+//    String user = String.format("user%s", now);
+//    String password = "password";
+//    String email = String.format("user%s@localhost", now);
+//    app.james().createUser(user, password);   // создаем польз-ля на почтовом сервере
+//    app.registration().start(user, email);
+//    List<MailMessage> mailMessages = app.james().waitForMail(user, password, 60000);  // получаем письмо из внешнего почтового сервера
+//    String confirmationLink = findConfirmationLink(mailMessages, email); // среди всех писем находим то, к-ое отправлено на адрес email и извлекаем из него ссылку
+//    app.registration().finish(confirmationLink, password);
+//    assertTrue(app.newSession().login(user, password));
+//  }
 
   // находим среди всех писем то, к-ое отправлено на нужный адрес: исп-ем ф-цию filter(), в к-ую в качестве параметра передается предикат, т.е. ф-ция,
   // возвращающая булевское значение true или false. На вход она принимает объект типа mailMessages и выполнять проверку m.to.equals(email). В рез-те
@@ -45,6 +45,20 @@ public class RegistrationTests extends TestBase {
     VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
     return regex.getText(mailMessage.text);                                       // возвращает тот кусок текста, к-ый соотв-ет построенному рег.выражению.
   }
+
+
+  @Test  // исп-ем этот тест, если используем встроенный почтовый сервер
+  public void testRegistration() throws IOException, MessagingException {
+    String user = String.format("user%s", random);
+    String password = "password";
+    String email = String.format("user%s@localhost.localdomain", random);
+    app.registration().start(user, email);
+    List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);  // ожидаем 2 письма 10 секунд (админу и польз-лю)
+    String confirmationLink = findConfirmationLink(mailMessages, email); // среди всех писем находим то, к-ое отправлено на адрес email и извлекаем из него ссылку
+    app.registration().finish(confirmationLink, password);
+    assertTrue(app.newSession().login(user, password));
+  }
+
 
   @AfterMethod (alwaysRun = true) // почтовый сервер будет останавливаться даже в том случае, если тест завершился не успешно
   public void stopMailServer() {

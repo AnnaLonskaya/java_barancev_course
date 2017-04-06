@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
@@ -20,7 +21,12 @@ public class ApplicationManager {
   private String browser;
   private RegistrationHelper registrationHelper;
   private FtpHelper ftp;
- private MailHelper mailHelper;
+  private MailHelper mailHelper;
+  private JamesHelper jamesHelper;
+  private LoginHelper loginHelper;
+  private AdminHelper adminHelper;
+  private DbHelper dbHelper;
+  public static String random = UUID.randomUUID().toString().substring(0,3);
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -60,11 +66,39 @@ public class ApplicationManager {
     return registrationHelper;
   }
 
+  public LoginHelper login() {
+    if (loginHelper == null) {
+      loginHelper = new LoginHelper(this);
+    }
+    return loginHelper;
+  }
+
+  public AdminHelper admin() {
+    if (adminHelper == null) {
+      adminHelper = new AdminHelper(this);
+    }
+    return adminHelper;
+  }
+
   public MailHelper mail() {
     if (mailHelper == null) {
       mailHelper = new MailHelper(this);
     }
     return mailHelper;
+  }
+
+  public JamesHelper james() {
+    if (jamesHelper == null) {
+      jamesHelper = new JamesHelper(this);
+    }
+    return jamesHelper;
+  }
+
+  public DbHelper db() {
+    if (dbHelper == null) {
+      dbHelper = new DbHelper(this);
+    }
+    return dbHelper;
   }
 
   public WebDriver getDriver() {  // чтобы инициализация была ленивой, переносим её в этот метод
