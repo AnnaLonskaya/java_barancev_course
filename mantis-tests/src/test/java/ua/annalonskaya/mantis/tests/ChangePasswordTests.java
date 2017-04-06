@@ -11,7 +11,6 @@ import ua.annalonskaya.mantis.model.Users;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
