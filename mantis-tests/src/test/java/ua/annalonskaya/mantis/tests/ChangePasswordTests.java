@@ -27,7 +27,7 @@ public class ChangePasswordTests extends TestBase {
   @Test
   public void changePasswordByAdminTest() throws IOException, MessagingException {
     Users before = app.db().users();
-    UserData changedUser = before.iterator().next();
+    UserData changedUser = before.stream().filter((s) -> !s.getName().equals("administrator")).findFirst().get();
     String newPassword = String.format("password%s", random);
     UserData user = new UserData().withId(changedUser.getId()).withName(changedUser.getName())
             .withEmail(changedUser.getEmail()).withPassword(newPassword);
