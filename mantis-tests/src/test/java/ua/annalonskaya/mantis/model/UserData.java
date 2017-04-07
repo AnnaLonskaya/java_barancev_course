@@ -37,7 +37,7 @@ public class UserData {
     return name;
   }
 
-  public UserData withName(String name) {
+   public UserData withName(String name) {
     this.name = name;
     return this;
   }
@@ -79,8 +79,7 @@ public class UserData {
 
     if (id != userData.id) return false;
     if (name != null ? !name.equals(userData.name) : userData.name != null) return false;
-    if (email != null ? !email.equals(userData.email) : userData.email != null) return false;
-    return password != null ? password.equals(userData.password) : userData.password == null;
+    return email != null ? email.equals(userData.email) : userData.email == null;
   }
 
   @Override
@@ -88,7 +87,8 @@ public class UserData {
     int result = id;
     result = 31 * result + (name != null ? name.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
-    result = 31 * result + (password != null ? password.hashCode() : 0);
     return result;
   }
+
+
 }
