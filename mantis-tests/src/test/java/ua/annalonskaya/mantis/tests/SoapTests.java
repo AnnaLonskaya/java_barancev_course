@@ -16,8 +16,8 @@ import static org.testng.Assert.assertEquals;
 public class SoapTests extends TestBase{
 
   @BeforeMethod
-  public void checkIssueStatus() throws IOException, ServiceException {
-    skipIfNotFixed();
+  public void checkIssueStatus(int issueId) throws IOException, ServiceException {
+    skipIfNotFixed(issueId);
   }
 
   @Test

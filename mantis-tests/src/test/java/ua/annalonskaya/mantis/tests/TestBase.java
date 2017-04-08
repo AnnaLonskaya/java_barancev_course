@@ -31,16 +31,14 @@ public class TestBase {
 //    }
 //  }
 
-
-  public void skipIfNotFixed() throws IOException, ServiceException {
-    Issue issue = app.soap().getIssue();
-    if (isIssueOpen()) {
-      throw new SkipException("Ignored because of issue " + issue.getId());
+  public void skipIfNotFixed(int issueId) throws IOException, ServiceException {
+    if (isIssueOpen(issueId)) {
+      throw new SkipException("Ignored because of issue " + issueId);
     }
   }
 
-  public Boolean isIssueOpen() throws IOException, ServiceException {
-    Issue issue = app.soap().getIssue();
+  public Boolean isIssueOpen(int issueId) throws IOException, ServiceException {
+    Issue issue = app.soap().getIssue(issueId);
     if (!issue.getStatus().equals("resolved")) {
       return true;
     } return false;
