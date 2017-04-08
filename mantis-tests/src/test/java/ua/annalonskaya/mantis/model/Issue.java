@@ -5,6 +5,7 @@ public class Issue {
   private int id;
   private String summary;
   private String description;
+  private String status;
   private Project project;
 
   public int getId() {
@@ -41,6 +42,26 @@ public class Issue {
   public Issue withProject(Project project) {
     this.project = project;
     return this;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public Issue withStatus(String status) {
+    this.status = status;
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    return "Issue{" +
+            "id=" + id +
+            ", summary='" + summary + '\'' +
+            ", description='" + description + '\'' +
+            ", status='" + status + '\'' +
+            ", project=" + project +
+            '}';
   }
 
 }

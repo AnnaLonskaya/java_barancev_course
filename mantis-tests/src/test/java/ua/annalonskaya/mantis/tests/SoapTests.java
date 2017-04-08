@@ -1,10 +1,12 @@
 package ua.annalonskaya.mantis.tests;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ua.annalonskaya.mantis.model.Issue;
 import ua.annalonskaya.mantis.model.Project;
 
 import javax.xml.rpc.ServiceException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.util.Set;
@@ -12,6 +14,11 @@ import java.util.Set;
 import static org.testng.Assert.assertEquals;
 
 public class SoapTests extends TestBase{
+
+  @BeforeMethod
+  public void checkIssueStatus() throws IOException, ServiceException {
+    skipIfNotFixed();
+  }
 
   @Test
   public void testGetProjects() throws MalformedURLException, ServiceException, RemoteException {
@@ -30,6 +37,21 @@ public class SoapTests extends TestBase{
     Issue created = app.soap().addIssue(issue);
     assertEquals(issue.getSummary(), created.getSummary());
   }
+
+  @Test
+  public void testGetIssue() throws MalformedURLException, ServiceException, RemoteException {
+    Set<Issue> issues = app.soap().getIssues();
+    Issue next = issues.iterator().next();
+    System.out.println(next.getStatus());
+  }
+
+  @Test
+  public void testGetIssue111() throws MalformedURLException, ServiceException, RemoteException {
+    Set<Issue> issues = app.soap().getIssues();
+    Issue next = issues.iterator().next();
+    System.out.println(new Issue().withId(next.getId()).withStatus(next.getStatus()));
+  }
+
 
 }
 
