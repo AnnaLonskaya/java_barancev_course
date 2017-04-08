@@ -17,6 +17,7 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.2.2'
     compile 'mysql:mysql-connector-java:6.0.6'
     compile 'org.hibernate:hibernate-core:5.2.9.Final'
+    compile 'biz.futureware.mantis:mantis-axis-soap-client:1.2.19'
 }
 
 // чтобы запустить тесты из консоли из директории проекта в cmd вводим gradlew test (gradlew cleanTest test).

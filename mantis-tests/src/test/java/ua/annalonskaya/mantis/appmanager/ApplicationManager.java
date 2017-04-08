@@ -26,6 +26,7 @@ public class ApplicationManager {
   private LoginHelper loginHelper;
   private AdminHelper adminHelper;
   private DbHelper dbHelper;
+  private SoapHelper soapHelper;
   public static String random = UUID.randomUUID().toString().substring(0,3);
 
   public ApplicationManager(String browser) {
@@ -99,6 +100,13 @@ public class ApplicationManager {
       dbHelper = new DbHelper(this);
     }
     return dbHelper;
+  }
+
+  public SoapHelper soap() {
+    if (soapHelper == null) {
+      soapHelper = new SoapHelper(this);
+    }
+    return soapHelper;
   }
 
   public WebDriver getDriver() {  // чтобы инициализация была ленивой, переносим её в этот метод
