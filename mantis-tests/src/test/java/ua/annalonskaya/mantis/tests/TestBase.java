@@ -10,7 +10,6 @@ import ua.annalonskaya.mantis.model.Issue;
 import javax.xml.rpc.ServiceException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 public class TestBase {
 
@@ -22,15 +21,14 @@ public class TestBase {
     app.ftp().upload(new File("src/test/resources/config_inc.php"), "config_inc.php", "config_inc.php.bak");
   }
 
-  public void skipIfNotFixed() throws IOException, ServiceException {
+  public void skipIfNotFixed(int id) throws IOException, ServiceException {
     if (isIssueOpen()) {
-      throw new SkipException("Ignored because of issue " );
+      throw new SkipException("Ignored because of issue " + id);
     }
   }
 
   public Boolean isIssueOpen() throws IOException, ServiceException {
-    Set<Issue> issues = app.soap().getIssues();
-    Issue next = issues.iterator().next();
+    Issue next = app.soap().getIssue();
     if (!next.getStatus().equals("resolved")) {
       return true;
     } return false;

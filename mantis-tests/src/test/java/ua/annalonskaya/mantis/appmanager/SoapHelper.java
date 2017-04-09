@@ -39,11 +39,10 @@ public class SoapHelper {
             .collect(Collectors.toSet());
   }
 
-  public Issue getIssue(int id) throws MalformedURLException, ServiceException, RemoteException {
+  public Issue getIssue() throws MalformedURLException, ServiceException, RemoteException {
     Set<Issue> issues = app.soap().getIssues();
     Issue next = issues.iterator().next();
-    id = next.getId();
-    return new Issue().withId(id).withStatus(next.getStatus());
+    return new Issue().withId(next.getId()).withStatus(next.getStatus());
   }
 
   private MantisConnectPortType getMantisConnect() throws ServiceException, MalformedURLException {
