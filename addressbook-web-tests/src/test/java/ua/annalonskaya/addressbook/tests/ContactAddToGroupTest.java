@@ -34,6 +34,7 @@ public class ContactAddToGroupTest extends TestBase {
     Contacts before = app.db().contacts();
     ContactData addedToGroupContact = before.iterator().next();
     GroupData addedGroup = groups.iterator().next();
+    Groups contactInGroupsBeforeAdded = app.db().contactInGroup();
     if (addedToGroupContact.getGroups().size() == app.db().groups().size()) {
       app.goTo().groupPage();
       GroupData group = new GroupData().withName("test3");
@@ -41,13 +42,13 @@ public class ContactAddToGroupTest extends TestBase {
       app.goTo().gotoHomePage();
       app.contact().addContactToGroupByName(addedToGroupContact, group);
     } else {
-      app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next()); // как сделать так, чтобы контакт добавлялся в ту группу, в к-ой он еще не добавлен
+      app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next());
     }
     app.goTo().gotoHomePage();
 
     assertThat(app.contact().count(), equalTo(before.size()));
-    Contacts after = app.db().contacts();
-    assertThat(after, equalTo(before.without(addedToGroupContact).withAdded(addedToGroupContact.inGroup(addedGroup))));
+    Groups contactInGroupsAfterAdded = app.db().contactInGroup();
+    assertThat((contactInGroupsAfterAdded), equalTo(contactInGroupsBeforeAdded.withAdded(addedGroup)));
   }
 
 }

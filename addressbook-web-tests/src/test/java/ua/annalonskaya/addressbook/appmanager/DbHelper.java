@@ -1,16 +1,16 @@
 package ua.annalonskaya.addressbook.appmanager;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import ua.annalonskaya.addressbook.model.ContactData;
-import ua.annalonskaya.addressbook.model.Contacts;
-import ua.annalonskaya.addressbook.model.GroupData;
-import ua.annalonskaya.addressbook.model.Groups;
+        import org.hibernate.Session;
+        import org.hibernate.SessionFactory;
+        import org.hibernate.boot.MetadataSources;
+        import org.hibernate.boot.registry.StandardServiceRegistry;
+        import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+        import ua.annalonskaya.addressbook.model.ContactData;
+        import ua.annalonskaya.addressbook.model.Contacts;
+        import ua.annalonskaya.addressbook.model.GroupData;
+        import ua.annalonskaya.addressbook.model.Groups;
 
-import java.util.List;
+        import java.util.List;
 
 public class DbHelper {
 
@@ -48,15 +48,17 @@ public class DbHelper {
     return new Contacts(result);
   }
 
-  public Contacts contactInGroup(ContactData contact) {
+
+  public Groups contactInGroup() {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    List<ContactData> result = session.createQuery("from ContactData where id" +
-            " = '" + contact.getId() + "'").list();
+    List<ContactData> result = session.createQuery("from ContactData where deprecated = '000-00-00'").list();
+    for (ContactData contact : result) {
+      return new Groups(contact.getGroups());
+    }
     session.getTransaction().commit();
     session.close();
-    return new Contacts(result);
+    return contactInGroup();
   }
-
 
 }

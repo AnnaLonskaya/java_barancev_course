@@ -29,21 +29,22 @@ public class ContactRemoveFromGroupTests extends TestBase {
 
   @Test
   public void testContactRemoveFromGroup() {
-    Groups groups = app.db().groups();
     app.goTo().gotoHomePage();
+    Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
     ContactData removedFromGroupContact = before.iterator().next();
+    Groups contactInGroupsBeforeDeleting = app.db().contactInGroup();
+    GroupData deletedGroup = contactInGroupsBeforeDeleting.iterator().next();
     if (removedFromGroupContact.getGroups().size()==0) {
       removedFromGroupContact = app.contact().addContactToGroup(removedFromGroupContact, groups.iterator().next());
       app.goTo().gotoHomePage();
     }
-    app.contact().removeContactFromGroup(removedFromGroupContact, removedFromGroupContact.getGroups().iterator().next());
+    app.contact().removeContactFromGroup(removedFromGroupContact, deletedGroup);
     app.goTo().gotoHomePage();
 
     assertThat(app.contact().count(),equalTo(before.size()));
-    Contacts after = app.db().contacts();
-    assertThat(after, equalTo(before));
-    // проверка, что контакт удален из группы
+    Groups contactInGroupsAfterDeleting = app.db().contactInGroup();
+    assertThat(contactInGroupsAfterDeleting, equalTo(contactInGroupsBeforeDeleting.without(deletedGroup)));
   }
 
 }
