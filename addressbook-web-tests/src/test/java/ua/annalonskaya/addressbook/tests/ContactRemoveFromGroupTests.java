@@ -33,12 +33,12 @@ public class ContactRemoveFromGroupTests extends TestBase {
     Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
     ContactData removedFromGroupContact = before.iterator().next();
-    Groups contactInGroupsBeforeDeleting = app.db().contactInGroup();
-    GroupData deletedGroup = contactInGroupsBeforeDeleting.iterator().next();
     if (removedFromGroupContact.getGroups().size()==0) {
       removedFromGroupContact = app.contact().addContactToGroup(removedFromGroupContact, groups.iterator().next());
       app.goTo().gotoHomePage();
     }
+    Groups contactInGroupsBeforeDeleting = app.db().contactInGroup();
+    GroupData deletedGroup = contactInGroupsBeforeDeleting.iterator().next();
     app.contact().removeContactFromGroup(removedFromGroupContact, deletedGroup);
     app.goTo().gotoHomePage();
 
