@@ -21,18 +21,19 @@ public class TestBase {
     app.ftp().upload(new File("src/test/resources/config_inc.php"), "config_inc.php", "config_inc.php.bak");
   }
 
-  public void skipIfNotFixed(int id) throws IOException, ServiceException {
-    if (isIssueOpen()) {
-      throw new SkipException("Ignored because of issue " + id);
+  public Boolean isIssueOpen(int issueId) throws IOException, ServiceException {
+    Issue issue = app.soap().getIssue(issueId);
+    if (issue.getStatus().equals("resolved") || (issue.getStatus().equals("closed"))) {
+      return false;
     }
+    return true;
   }
 
-  public Boolean isIssueOpen() throws IOException, ServiceException {
-    Issue next = app.soap().getIssue();
-    if (!next.getStatus().equals("resolved")) {
-      return true;
-    } return false;
-   }
+  public void skipIfNotFixed(int issueId) throws IOException, ServiceException {
+    if (isIssueOpen(issueId)) {
+      throw new SkipException("Ignored because of issue " + issueId);
+    }
+  }
 
   @AfterSuite(alwaysRun = true)
   public void tearDown() throws IOException {
@@ -41,5 +42,4 @@ public class TestBase {
   }
 
 }
-
 

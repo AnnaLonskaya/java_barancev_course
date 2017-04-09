@@ -1,5 +1,6 @@
 package ua.annalonskaya.mantis.tests;
 
+import org.testng.SkipException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ua.annalonskaya.mantis.model.Issue;
@@ -15,9 +16,15 @@ import static org.testng.Assert.assertEquals;
 
 public class SoapTests extends TestBase{
 
+  private int issueId = 4;
+
   @BeforeMethod
-  public void checkIssueStatus(int id) throws IOException, ServiceException {
-    skipIfNotFixed(id);
+  public void checkIssueStatus() throws IOException, ServiceException {
+    try {
+      skipIfNotFixed(issueId);
+    } catch (SkipException e) {
+      e.printStackTrace();
+    }
   }
 
   @Test
@@ -44,14 +51,6 @@ public class SoapTests extends TestBase{
     Issue next = issues.iterator().next();
     System.out.println(next.getStatus());
   }
-
-  @Test
-  public void testGetIssue111() throws MalformedURLException, ServiceException, RemoteException {
-    Set<Issue> issues = app.soap().getIssues();
-    Issue next = issues.iterator().next();
-    System.out.println(new Issue().withId(next.getId()).withStatus(next.getStatus()));
-  }
-
 
 }
 
