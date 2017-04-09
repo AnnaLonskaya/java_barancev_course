@@ -1,16 +1,16 @@
 package ua.annalonskaya.addressbook.appmanager;
 
-        import org.hibernate.Session;
-        import org.hibernate.SessionFactory;
-        import org.hibernate.boot.MetadataSources;
-        import org.hibernate.boot.registry.StandardServiceRegistry;
-        import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-        import ua.annalonskaya.addressbook.model.ContactData;
-        import ua.annalonskaya.addressbook.model.Contacts;
-        import ua.annalonskaya.addressbook.model.GroupData;
-        import ua.annalonskaya.addressbook.model.Groups;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import ua.annalonskaya.addressbook.model.ContactData;
+import ua.annalonskaya.addressbook.model.Contacts;
+import ua.annalonskaya.addressbook.model.GroupData;
+import ua.annalonskaya.addressbook.model.Groups;
 
-        import java.util.List;
+import java.util.List;
 
 public class DbHelper {
 

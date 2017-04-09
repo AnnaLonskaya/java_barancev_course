@@ -1,40 +1,21 @@
-package ua.annalonskaya.rest;
+package ua.annalonskaya.rest.appmanager;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.jayway.restassured.RestAssured;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import ua.annalonskaya.rest.model.Issue;
 
 import java.io.IOException;
 import java.util.Set;
 
-import static org.testng.Assert.assertEquals;
+public class RestAssuredHelper {
 
-
-public class RestAssuredTests {
-
-
-  @BeforeClass
-  public void init() {
-    RestAssured.authentication = RestAssured.basic("LSGjeU4yP1X493ud1hNniA==", "");
+  public RestAssuredHelper() {
   }
 
-
-  @Test
-  public void testCreateIssue() throws IOException {
-    Set<Issue> oldIssues = getIssues();
-    Issue newIssue = new Issue().withSubject("Test issue5").withDescription("New test issue5");
-    int issueId = createIssue(newIssue);
-    Set<Issue> newIssues = getIssues();
-    oldIssues.add(newIssue.withId(issueId));
-    assertEquals(newIssues, oldIssues);
-  }
-
-
-  private Set<Issue> getIssues() throws IOException {
+  public Set<Issue> getIssues() throws IOException {
     String json = RestAssured.get("http://demo.bugify.com/api/issues.json").asString();
     JsonElement parsed = new JsonParser().parse(json);
     JsonElement issues = parsed.getAsJsonObject().get("issues");
@@ -42,7 +23,7 @@ public class RestAssuredTests {
     }.getType());
   }
 
-  private int createIssue(Issue newIssue) throws IOException {
+  public int createIssue(Issue newIssue) throws IOException {
     String json = RestAssured.given()
             .parameter("subject", newIssue.getSubject())
             .parameter("description", newIssue.getDescription())

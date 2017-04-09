@@ -1,4 +1,4 @@
-package ua.annalonskaya.rest;
+package ua.annalonskaya.rest.model;
 
 public class Issue {
 
