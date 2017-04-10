@@ -1,6 +1,5 @@
 package ua.annalonskaya.rest.tests;
 
-import org.testng.SkipException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ua.annalonskaya.rest.appmanager.RestHelper;
