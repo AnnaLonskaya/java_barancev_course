@@ -38,5 +38,17 @@ public class RestHelper {
     return parsed.getAsJsonObject().get("issue_id").getAsInt();
   }
 
+  public Issue getIssue(int id) throws IOException {
+    String json = getExecutor()
+            .execute(Request.Get(String.format("http://demo.bugify.com/api/issues/%s.json", id)))
+            .returnContent().asString();
+    JsonElement parsed = new JsonParser().parse(json);
+    JsonElement issues = parsed.getAsJsonObject().get("issues");
+    Set<Issue> fromJson = new Gson().fromJson(issues, new TypeToken<Set<Issue>>() {
+    }.getType());
+    String state_name = fromJson.iterator().next().getStateName();
+    return new Issue().withId(id).withStateName(state_name);
+  }
+
 }
 

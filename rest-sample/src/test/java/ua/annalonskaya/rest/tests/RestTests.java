@@ -15,21 +15,17 @@ public class RestTests extends TestBase{
 
   RestHelper rest = new RestHelper();
 
-  private int issueId = 5;
+  private int issueId = 6;
 
-//  @BeforeMethod
-//  public void checkIssueStatus() throws IOException {
-//    try {
-//      skipIfNotFixed(issueId);
-//    } catch (SkipException e) {
-//      e.printStackTrace();
-//    }
-//  }
+  @BeforeMethod
+  public void checkIssueStatus() throws IOException {
+    skipIfNotFixed(issueId);
+  }
 
   @Test
   public void testCreateIssue() throws IOException {
     Set<Issue> oldIssues = rest.getIssues();
-    Issue newIssue = new Issue().withSubject("Test issue6").withDescription("New test issue5");
+    Issue newIssue = new Issue().withSubject("Test issue107").withDescription("New test issue5");
     int issueId = rest.createIssue(newIssue);
     Set<Issue> newIssues = rest.getIssues();
     oldIssues.add(newIssue.withId(issueId));
@@ -44,10 +40,11 @@ public class RestTests extends TestBase{
     }
   }
 
-//  @Test
-//  public void testGetIssue() throws IOException {
-//    Issue issue = rest.getIssue(issueId);
-//    System.out.println(issue);
-//  }
+  @Test
+  public void testGetIssue() throws IOException {
+    Issue issue = rest.getIssue(issueId);
+    System.out.println(issue.getStateName());
+    System.out.println(issue.getId());
+  }
 
 }
