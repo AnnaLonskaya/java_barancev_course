@@ -16,13 +16,11 @@ import static org.testng.Assert.assertEquals;
 
 public class SoapTests extends TestBase{
 
-  private int issueId = 4;
+  private int issueId = 5;
 
   @BeforeMethod
   public void checkIssueStatus() throws IOException, ServiceException {
-    if (isIssueOpen(issueId).equals(true)) {
-      skipIfNotFixed(issueId);
-    }
+    skipIfNotFixed(issueId);
   }
 
   @Test
