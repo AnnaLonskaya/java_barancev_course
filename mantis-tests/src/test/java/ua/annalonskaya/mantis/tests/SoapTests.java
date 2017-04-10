@@ -20,10 +20,8 @@ public class SoapTests extends TestBase{
 
   @BeforeMethod
   public void checkIssueStatus() throws IOException, ServiceException {
-    try {
+    if (isIssueOpen(issueId).equals(true)) {
       skipIfNotFixed(issueId);
-    } catch (SkipException e) {
-      e.printStackTrace();
     }
   }
 
