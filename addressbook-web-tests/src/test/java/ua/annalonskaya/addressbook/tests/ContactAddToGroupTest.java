@@ -42,7 +42,7 @@ public class ContactAddToGroupTest extends TestBase {
       app.goTo().gotoHomePage();
       app.contact().addContactToGroupByName(addedToGroupContact, group);
       Groups contactInGroupsAfterAdded = app.db().contactInGroup();
-      assertThat(contactInGroupsAfterAdded, equalTo(contactInGroupsBeforeAdded.withAdded(group)));
+      assertThat(contactInGroupsAfterAdded.size(), equalTo(contactInGroupsBeforeAdded.size() + 1));
     } else {
       app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next());
       app.goTo().gotoHomePage();
