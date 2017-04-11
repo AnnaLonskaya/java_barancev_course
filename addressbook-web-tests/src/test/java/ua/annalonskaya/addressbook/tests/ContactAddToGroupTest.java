@@ -40,15 +40,31 @@ public class ContactAddToGroupTest extends TestBase {
       GroupData group = new GroupData().withName("test3");
       app.group().create(group);
       app.goTo().gotoHomePage();
-      app.contact().addContactToGroupByName(addedToGroupContact, group);
-      Groups contactInGroupsAfterAdded = app.db().contactInGroup();
-      assertThat(contactInGroupsAfterAdded.size(), equalTo(contactInGroupsBeforeAdded.size() + 1));
-    } else {
+      Groups newGroupsList = app.db().groups();
+      for (GroupData newGroup : newGroupsList) {
+        if (newGroup.getId() == newGroupsList.stream().mapToInt((g) -> g.getId()).max().getAsInt()) {
+          app.contact().addContactToGroup(addedToGroupContact, newGroup);
+          Groups contactInGroupsAfterAdded = app.db().contactInGroup();
+          assertThat(contactInGroupsAfterAdded.size(), equalTo(contactInGroupsBeforeAdded.size() + 1));
+        }
+      }
+    } else if (addedToGroupContact.getGroups().size() == 0) {
       app.contact().addContactToGroup(addedToGroupContact, groups.iterator().next());
-      app.goTo().gotoHomePage();
       Groups contactInGroupsAfterAdded = app.db().contactInGroup();
       assertThat(contactInGroupsAfterAdded, equalTo(contactInGroupsBeforeAdded.withAdded(addedGroup)));
+    } else {
+      mainloop:
+      for (GroupData selectedGroup : groups) {
+        for (GroupData userGroup : addedToGroupContact.getGroups()) {
+          if (!userGroup.equals(selectedGroup)) {
+            app.contact().addContactToGroup(addedToGroupContact, selectedGroup);
+            Groups contactInGroupsAfterAdded = app.db().contactInGroup();
+            assertThat(contactInGroupsAfterAdded, equalTo(contactInGroupsBeforeAdded.withAdded(selectedGroup)));
+            break mainloop;
+          }
+        }
+      }
     }
   }
-
 }
+
