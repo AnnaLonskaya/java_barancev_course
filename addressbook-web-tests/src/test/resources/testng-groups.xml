@@ -3,9 +3,7 @@
 <suite name="Suite1" verbose="1">
     <test name="Groups">
         <classes>
-            <class name="ua.annalonskaya.addressbook.tests.GroupCreationTests"/>          <!--тесты выполняются в строгом порядке по очереди -->
-            <class name="ua.annalonskaya.addressbook.tests.ContactModificationTests"/>
-            <class name="ua.annalonskaya.addressbook.tests.GroupDeletionTests"/>
+            <class name="ua.annalonskaya.addressbook.tests.GroupDeletionTests"/>   <!--тесты выполняются в строгом порядке по очереди -->
         </classes>
     </test>
 </suite>
