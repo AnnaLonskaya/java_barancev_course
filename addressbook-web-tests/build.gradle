@@ -23,6 +23,7 @@ dependencies {
     compile 'org.hibernate:hibernate-core:5.2.9.Final'
     agent "org.aspectj:aspectjweaver:1.8.0"
     compile "ru.yandex.qatools.allure:allure-testng-adaptor:1.4.0.RC4"
+    compile 'org.robotframework:robotframework:3.0.2'
 }
 
 // чтобы запустить тесты из консоли из директории проекта в cmd вводим gradlew test (gradlew cleanTest test).
@@ -66,6 +67,13 @@ task testContacts (type: Test) {
     if (project.hasProperty('verifyUI')) {
         systemProperty 'verifyUI', "${verifyUI}"
     }
+}
+
+task rf(type: JavaExec) {
+    main = 'org.robotframework.RobotFramework'
+    classpath = sourceSets.test.runtimeClasspath
+    args '--outputdir', 'build/rf-report'
+    args 'src/test/resources/rf'
 }
 
 //test {     // запускаем все тесты (gradlew test)
