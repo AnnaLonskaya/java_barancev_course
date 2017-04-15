@@ -3,10 +3,8 @@ package ua.annalonskaya.addressbook.tests;
 import org.openqa.selenium.remote.BrowserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
 import ua.annalonskaya.addressbook.appmanager.ApplicationManager;
 import ua.annalonskaya.addressbook.model.ContactData;
 import ua.annalonskaya.addressbook.model.Contacts;
@@ -20,6 +18,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Listeners(MyTestListener.class)
 public class TestBase {
 
 // Чтобы использовать один и  тот же экземпляр браузера для всех тестов:
@@ -33,8 +32,9 @@ public class TestBase {
   Logger logger = LoggerFactory.getLogger(TestBase.class); // создаем переменную logger. Создаем объект с помощью LoggerFactory
 
   @BeforeSuite
-  public void setUp() throws Exception {
+  public void setUp(ITestContext context) throws Exception {
     app.init();
+    context.setAttribute("app", app);
   }
 
   @AfterSuite(alwaysRun = true)
