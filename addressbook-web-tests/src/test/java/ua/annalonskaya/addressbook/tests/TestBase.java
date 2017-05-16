@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import ua.annalonskaya.addressbook.appmanager.ApplicationManager;
-import ua.annalonskaya.addressbook.model.ContactData;
 import ua.annalonskaya.addressbook.model.Contacts;
 import ua.annalonskaya.addressbook.model.GroupData;
 import ua.annalonskaya.addressbook.model.Groups;
