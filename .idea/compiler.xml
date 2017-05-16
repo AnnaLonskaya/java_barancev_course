@@ -14,6 +14,8 @@
       <module name="sandbox_test" target="1.8" />
       <module name="soap-sample_main" target="1.8" />
       <module name="soap-sample_test" target="1.8" />
+      <module name="xml-to-mysql_main" target="1.8" />
+      <module name="xml-to-mysql_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
