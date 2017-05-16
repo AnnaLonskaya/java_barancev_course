@@ -8,9 +8,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/github-sample.iml" filepath="$PROJECT_DIR$/.idea/modules/github-sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/github-sample_main.iml" filepath="$PROJECT_DIR$/.idea/modules/github-sample_main.iml" group="github-sample" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/github-sample_test.iml" filepath="$PROJECT_DIR$/.idea/modules/github-sample_test.iml" group="github-sample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-example.iml" filepath="$PROJECT_DIR$/.idea/modules/java-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-example_main.iml" filepath="$PROJECT_DIR$/.idea/modules/java-example_main.iml" group="java-example" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-example_test.iml" filepath="$PROJECT_DIR$/.idea/modules/java-example_test.iml" group="java-example" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mantis-tests.iml" filepath="$PROJECT_DIR$/.idea/modules/mantis-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mantis-tests_main.iml" filepath="$PROJECT_DIR$/.idea/modules/mantis-tests_main.iml" group="mantis-tests" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mantis-tests_test.iml" filepath="$PROJECT_DIR$/.idea/modules/mantis-tests_test.iml" group="mantis-tests" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rest-sample.iml" filepath="$PROJECT_DIR$/.idea/modules/rest-sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rest-sample_main.iml" filepath="$PROJECT_DIR$/.idea/modules/rest-sample_main.iml" group="rest-sample" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rest-sample_test.iml" filepath="$PROJECT_DIR$/.idea/modules/rest-sample_test.iml" group="rest-sample" />
